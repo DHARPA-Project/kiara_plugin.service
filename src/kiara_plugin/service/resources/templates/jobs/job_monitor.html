@@ -1,0 +1,7 @@
+<div id="{{ element_id }}">
+    <form hx-post="/html/operations/monitor_job" hx-target="#{{ element_id }}" hx-trigger="every 1s">
+        <input type="hidden" name="element_id" value='{{ element_id }}'>
+        <input type="hidden" name="job_id" value='{{ job.job_id }}'>
+    </form>
+    Monitoring job: {{ job.job_id }}
+</div>

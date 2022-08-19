@@ -1,0 +1,29 @@
+{% import 'kiara_plugin.service/macros.html' as macros %}
+
+<div id="{{ element_id }}">
+
+{% if error %}
+<div>
+{{ error }}
+</div>
+
+{% else %}
+<dev class="grid grid-cols-6 items-center">
+<dev class="col-span-1">Result fields</dev>
+<dev class="col-span-4">
+<dev class="flex flex-row justify-center">
+{% for field_name, value in results.items() %}
+    <button {{ field_name }} _="on click toggle .hidden on #{{ element_id }}--{{ field_name }} toggle .bg-blue-300 on me toggle .bg-blue-500 on me" class="bg-blue-500  text-white font-bold py-2 px-4">{{ field_name }}</button>
+{% endfor %}
+</dev>
+</dev>
+</dev>
+<dev class="flex flex-row justify-items-stretch">
+{% for field_name, value in results.items() %}
+    {{ macros.value_render(element_id=element_id + "--" + field_name, value=value.value_id) }}
+{% endfor %}
+</dev>
+
+{% endif %}
+
+</div>

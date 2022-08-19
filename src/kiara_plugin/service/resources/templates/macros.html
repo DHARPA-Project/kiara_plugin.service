@@ -1,0 +1,156 @@
+<!-- Value-related macros-->
+{% macro render_controls(element_id, value_id, field_name, render_value_result) %}
+<div class="flex flex-row justify-center items-center">
+    {% for scene_name, scene in render_value_result.related_scenes.items() %}
+        <form hx-post="/html/values/render" hx-target="#{{ element_id }}">
+        {%  if not scene or scene.disabled %}
+        <button class="bg-blue-300 text-white font-bold py-2 px-4 rounded-none basis-1/{{ render_value_result.related_scenes | length }}" disabled>{{ scene_name }}</button>
+        {%  else %}
+        <input type="hidden" name="render_conf" value='{{ scene.dict() | tojson }}'>
+        <input type="hidden" name="{{ field_name }}" value="{{ value_id }}">
+        <input type="hidden" name="field_name" value='{{ field_name }}'>
+        <input type="hidden" name="target_id" value="{{ element_id }}">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-none basis-1/{{ render_value_result.related_scenes | length }}" type="submit">{{ scene_name }}</button>
+        {%  endif %}
+        </form>
+    {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro render_controls_secondary(element_id, value_id, field_name, render_value_result) %}
+<div class="flex flex-row justify-center items-center">
+    {% for category_name, category_scene in render_value_result.related_scenes.items() if not scene or scene.disabled %}
+        {% for scene_name, scene in category_scene.related_scenes.items()  %}
+            <form hx-post="/html/values/render" hx-target="#{{ element_id }}">
+            {%  if not scene or scene.disabled %}
+            <button class="bg-blue-300 text-white font-bold py-2 px-4 rounded-none basis-1/{{ render_value_result.related_scenes | length }}" disabled>{{ scene_name }}</button>
+            {%  else %}
+            <input type="hidden" name="render_conf" value='{{ scene.dict() | tojson }}'>
+            <input type="hidden" name="field_name" value='{{ field_name }}'>
+            <input type="hidden" name="{{ field_name }}" value="{{ value_id }}">
+            <input type="hidden" name="target_id" value="{{ element_id }}">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-none basis-1/{{ render_value_result.related_scenes | length }}" type="submit">{{ scene_name }}</button>
+            {%  endif %}
+            </form>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro value_render(element_id, value, label=None) %}
+
+    <div id="{{ element_id }}" class="w-full">
+<form hx-post="/html/values/render" id="{{ element_id }}--form" hx-target="#{{ element_id }}-preview" hx-trigger="load, revealed" class="grid grid-cols-4 content-start items-center gap-4 w-full" >
+{% if label %}<label for="{{ element_id }}-value-select" class="row-start-1 col-span-1">{{ label }}</label>{% endif %}
+<input type="hidden" name="target_id" value='{{ element_id }}-preview'>
+<input type="hidden" name="{{ element_id }}" value='{{ value }}'>
+<input type="hidden" name="field_name" value='{{ element_id }}'>
+
+<div id="{{ element_id }}-preview-container" class="row-start-3 col-span-4 bg-white rounded-lg justify-self-stretch p-4">
+<div id="{{ element_id }}-preview" >-- no value (yet)--</div>
+    </div>
+</form>
+</div>
+{% endmacro %}
+
+{% macro value_selectbox(element_id, field_name, data_types=[], label=None, desc=None, allow_preview=False, show_data_type=False) %}
+{% set aliases = kiara_api.list_aliases(data_types=data_types) %}
+<form hx-post="/html/values/render" id="{{ element_id }}" hx-target="#{{ element_id }}-preview" hx-trigger="{% if aliases %}change, load, revealed{% endif %}" class="grid grid-cols-4 content-start items-center gap-4 w-full" >
+{% if label %}<label for="{{ element_id }}-value-select" class="row-start-1 col-span-1">{{ label }}</label>{% endif %}
+{% if desc %}
+    <div class="text-sm row-start-2 col-span-4 w-full>{{ desc }}">{{ desc }}</div>
+{% endif %}
+<input type="hidden" name="target_id" value='{{ element_id }}-preview'>
+<input type="hidden" name="field_name" value='{{ field_name }}'>
+<select {% if not aliases %}disabled{% endif %} id="{{ element_id }}--value-select" is_input="true" name="{{ field_name }}" class="row-start-3 col-span-3 p-2 bg-white">
+{% if aliases %}
+{% for alias, value in aliases.items() %}
+    <option value="{{ alias }}">{{ alias }}{% if show_display_type %} ( {{ value.data_type_name }} ){% endif %}</option>
+{% endfor %}
+{% else %}
+    <option value="__no_value__">-- no values --</option>
+{% endif %}
+</select>
+{% if allow_preview %}
+<button {% if not aliases %}disabled{% endif %} id="{{ element_id }}-preview-toggle" _="on click toggle .hidden on #{{ element_id }}-preview-container toggle .bg-blue-500 on me toggle .bg-blue-300 on me" class="{% if aliases %}bg-blue-500 text-white{% else %}bg-blue-300 text-gray-100{% endif %} font-bold rounded-lg row-start-3 justify-self-start p-2" type="button">Preview</button>
+{% endif %}
+
+{% if allow_preview %}
+    <div id="{{ element_id }}-preview-container" class="row-start-4 col-span-4 bg-white rounded-lg justify-self-stretch p-4 hidden">
+<div id="{{ element_id }}-preview" >-- no value (yet)--</div>
+    </div>
+</form>
+
+{% endif %}
+{% endmacro %}
+
+<!-- Operation-related macros-->
+{% macro operation_selectbox(element_id, label=None, allow_preview=False) -%}
+<div id="{{ element_id }}" class="grid grid-cols-4 content-start items-center gap-4 w-full">
+{#<form hx-post="/html/operations/operation_info" id="{{ element_id }}" hx-params="*" hx-target="#{{ element_id }}-preview" hx-trigger="change, load, revealed" class="grid grid-cols-4 content-start items-center gap-4 w-full">#}
+{% if label %}<label for="{{ element_id }}--select" class="row-start-1 col-span-1">{{ label }}</label>{% endif %}
+
+<select id="{{ element_id }}--select" name="operation_id" class="row-start-2 col-span-3 p-2 bg-white" hx-post="/html/operations/operation_info" hx-target="#{{ element_id }}-preview" hx-trigger="change, load, revealed" hx-vals='{"element_id": "{{ element_id }}--info-render"}'>
+{% for operation_id in kiara_api.operation_ids %}
+    <option value="{{ operation_id }}">{{ operation_id }}</option>
+{%  endfor %}
+</select>
+
+{% if allow_preview %}
+<button id="{{ element_id }}-preview-toggle" _="on click toggle .hidden on #{{ element_id }}-preview-container" class="bg-blue-500 text-white font-bold rounded-lg row-start-2 justify-self-start p-2" type="button">Info</button>
+{% endif %}
+
+{% if allow_preview %}
+    <div id="{{ element_id }}-preview-container" class="row-start-3 col-span-4 bg-white rounded-lg justify-self-stretch p-4 hidden">
+<div id="{{ element_id }}-preview" >-- no operation (yet)--</div>
+    </div>
+{% endif %}
+</div>
+{#</form>#}
+{% endmacro %}
+
+{% macro operation_inputs(element_id, operation_id=None, operation_id_element=None) -%}
+
+{% if operation_id %}
+
+    <div hx-post="/html/operations/inputs_form" id="{{ element_id }}" hx-target="#{{ element_id }}--form-fields" hx-trigger="change, load, revealed" hx-vals='{"operation_id": "{{ operation_id }}"}'>
+        <input type="hidden" name="element_id" value='{{ element_id }}--input-field-render'>
+    </div>
+
+{% else %}
+
+    <div hx-post="/html/operations/inputs_form" id="{{ element_id }}" hx-target="#{{ element_id }}--form-fields" hx-trigger="change, load, revealed, change from:#{{ operation_id_element }}" hx-include="#{{ operation_id_element }}">
+        <input type="hidden" name="element_id" value='{{ element_id }}--input-field-render'>
+    </div>
+
+{% endif %}
+
+<div id="{{ element_id }}--form-fields"></div>
+{%  endmacro %}
+
+
+{% macro operation_run_panel(element_id, operation_id=None) %}
+
+<form hx-post="/html/operations/queue_job" id="{{ element_id }}-form" hx-target="#{{ element_id }}--result" hx-trigger="click from:#{{ element_id }}--run-button" hx-include='[is_input="true"]'>
+<div class="grid grid-cols-1 gap-4">
+{% if not operation_id %}
+    <div>
+        {{ operation_selectbox(element_id=element_id + "--op-selectbox", allow_preview=True) }}
+    </div>
+    <div>
+        {{ operation_inputs(element_id=element_id + "--input-panels", operation_id_element=element_id+"--op-selectbox--select") }}
+    </div>
+{% else %}
+    <div >
+        {{ operation_inputs(element_id=element_id + "--input-panels", operation_id=operation_id) }}
+    </div>
+     <input type="hidden" name="operation_id" value='{{ operation_id }}'>
+{% endif %}
+<div>
+    <button id="{{ element_id }}--run-button" class="bg-blue-500 text-white font-bold rounded-lg row-start-2 justify-self-start p-2" type="submit">Run</button>
+</div>
+</div>
+
+</form>
+<div id="{{ element_id }}--result"></div>
+{% endmacro %}

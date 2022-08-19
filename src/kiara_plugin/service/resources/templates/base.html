@@ -1,0 +1,16 @@
+{% import 'kiara_plugin.service/macros.html' as macros %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous" defer></script>
+<script src="https://unpkg.com/hyperscript.org@0.9.5"></script>
+
+<link rel="stylesheet" href="/static/main.css">
+</head>
+<body class="bg-blue-100">
+
+<div id="content">{% block content %}{% endblock %}</div>
+
+</body>
+</html>

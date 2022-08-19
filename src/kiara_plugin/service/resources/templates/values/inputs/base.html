@@ -1,0 +1,5 @@
+{% import 'kiara_plugin.service/macros.html' as macros %}
+{% set label = "<p><b><i>" ~ field_name ~ '</i></b>&nbsp(type:&nbsp' ~ data_type ~ ")</p>" %}
+{{ macros.value_selectbox(element_id="inputs-field--" + field_name, field_name=field_name, data_types=[data_type], show_data_type=True, allow_preview=True, label=label|safe, desc=desc|safe) }}
+
+<div id="type_specific-inputs-field--{{ field_name }}">{% block type_specific %}{% endblock %}</div>

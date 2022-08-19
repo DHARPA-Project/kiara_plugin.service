@@ -1,0 +1,5 @@
+{% extends "kiara_plugin.service/values/inputs/base_scalar.html" %}
+
+{% block type_specific %}
+    <input type="text" id="{{ element_id }}--input-field" is_input="true" name="{{ field_name }}" class="w-full">
+{% endblock %}

@@ -1,0 +1,10 @@
+{% import 'kiara_plugin.service/macros.html' as macros %}
+
+<div class="grid grid-cols-4 gap-4 w-full">
+{% set label = "<p><b><i>" ~ field_name ~ '</i></b>&nbsp(type:&nbsp' ~ data_type ~ ")</p>" %}
+{% if label %}<label for="{{ element_id }}--input-field" class="row-start-1 col-span-3">{{ label | safe }}</label>{% endif %}
+
+    <div class="text-sm row-start-2 col-span-4 w-full>{{ desc }}">{{ desc }}</div>
+
+<div id="type_specific-inputs-field-scalar-{{ field_name }}" class="row-start-3 col-span-4 p-2 w-full">{% block type_specific %}{% endblock %}</div>
+</div>
