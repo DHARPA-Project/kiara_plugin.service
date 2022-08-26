@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import uuid
+from typing import Dict, List, Union
 
 from kiara import Kiara, KiaraAPI
+from kiara.interfaces.python_api import OperationInfo
 from kiara.models.module.jobs import JobStatus
 from kiara.registries.templates import TemplateRegistry
 from pydantic import BaseModel, Extra, Field
@@ -33,6 +35,63 @@ class MonitorJobRequest(BaseModel):
 
     element_id: str = Field(description="The id of the result element.")
     job_id: str = Field(description="The id of the job to monitor.")
+
+
+class OperationMatcher(BaseModel):
+
+    filters: List[str] = Field(
+        description="The (optional) filter strings, an operation must match all of them to be included in the result.",
+        default_factory=list,
+    )
+    include_internal: bool = Field(
+        description="Whether to include internal operations in the result.",
+        default=False,
+    )
+
+
+class OperationControllerJson(Controller):
+    path = "/"
+
+    @post(path="/")
+    async def list_operations(
+        self, kiara_api: KiaraAPI, data: Union[OperationMatcher, None] = None
+    ) -> Dict[str, OperationInfo]:
+
+        if data is None:
+            filters: List[str] = []
+            include_internal = False
+        else:
+            filters = data.filters
+            include_internal = data.include_internal
+
+        operations = kiara_api.get_operations_info(
+            *filters, include_internal=include_internal
+        )
+        return operations.item_infos  # type: ignore
+
+    @post(path="/ids")
+    async def list_operation_ids(
+        self, kiara_api: KiaraAPI, data: Union[OperationMatcher, None] = None
+    ) -> List[str]:
+        if data is None:
+            filters: List[str] = []
+            include_internal = False
+        else:
+            filters = data.filters
+            include_internal = data.include_internal
+
+        operation_ids = kiara_api.get_operation_ids(
+            *filters, include_internal=include_internal
+        )
+        return operation_ids
+
+    @get(path="/{operation_id:str}")
+    def get_operation_info(
+        self, kiara_api: KiaraAPI, operation_id: str
+    ) -> OperationInfo:
+
+        op = kiara_api.get_operation_info(operation_id=operation_id)
+        return op
 
 
 class OperationControllerHtmx(Controller):

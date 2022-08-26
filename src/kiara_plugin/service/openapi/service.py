@@ -1,16 +1,36 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
-from typing import List, Optional, Union, cast
+from typing import (
+    Any,
+    Dict,
+    List,
+    NoReturn,
+    Optional,
+    TypeVar,
+    Union,
+    cast,
+)
 
 import structlog
+import yaml
 from hypercorn.typing import ASGIFramework
 from jinja2 import Template as JinjaTemplate
 from jinja2 import TemplateNotFound as JinjaTemplateNotFound
 from kiara.context import Kiara
 from kiara.interfaces.python_api import KiaraAPI
+from kiara.models import KiaraModel
 from kiara.registries.templates import TemplateRegistry
 from kiara.utils import is_debug, is_develop
+from orjson import (
+    OPT_INDENT_2,
+    OPT_NON_STR_KEYS,
+    OPT_OMIT_MICROSECONDS,
+    OPT_SERIALIZE_NUMPY,
+    dumps,
+)
 from pydantic import DirectoryPath
+from pydantic_openapi_schema.v3_1_0.open_api import OpenAPI
+from starlette.status import HTTP_204_NO_CONTENT, HTTP_304_NOT_MODIFIED
 from starlite import (
     CORSConfig,
     HTTPException,
@@ -22,23 +42,78 @@ from starlite import (
     StaticFilesConfig,
     TemplateConfig,
 )
-from starlite.exceptions import TemplateNotFound
+from starlite.enums import MediaType, OpenAPIMediaType
+from starlite.exceptions import ImproperlyConfiguredException, TemplateNotFound
 from starlite.exceptions.utils import create_exception_response
-from starlite.template.base import TemplateEngineProtocol
+from starlite.template import TemplateEngineProtocol
 
 from kiara_plugin.service.defaults import KIARA_SERVICE_RESOURCES_FOLDER
 from kiara_plugin.service.openapi import OperationControllerHtml
-from kiara_plugin.service.openapi.controllers import (
-    JobControllerJson,
+from kiara_plugin.service.openapi.controllers.jobs import JobControllerJson
+from kiara_plugin.service.openapi.controllers.operations import (
+    OperationControllerHtmx,
     OperationControllerJson,
 )
-from kiara_plugin.service.openapi.controllers.operations import OperationControllerHtmx
 from kiara_plugin.service.openapi.controllers.values import (
     ValueControllerHtmx,
     ValueControllerJson,
 )
 
+T = TypeVar("T")
+
+
 logger = structlog.getLogger()
+
+
+class KiaraModelResponse(Response):
+    def serializer(self, value: Any) -> Dict[str, Any]:
+        if isinstance(value, KiaraModel):
+            return value.dict()
+        return super().serializer(value)
+
+    def render(self, content: Any) -> bytes:
+        """
+        Handles the rendering of content T into a bytes string.
+        Args:
+            content: An arbitrary value of type T
+
+        Returns:
+            An encoded bytes string
+        """
+        try:
+            if (
+                content is None
+                or content is NoReturn
+                and (
+                    self.status_code < 100
+                    or self.status_code in {HTTP_204_NO_CONTENT, HTTP_304_NOT_MODIFIED}
+                )
+            ):
+                return b""
+            if self.media_type == MediaType.JSON:
+                return dumps(
+                    content,
+                    default=self.serializer,
+                    option=OPT_SERIALIZE_NUMPY
+                    | OPT_OMIT_MICROSECONDS
+                    | OPT_NON_STR_KEYS,
+                )
+            if isinstance(content, OpenAPI):
+                content_dict = content.dict(by_alias=True, exclude_none=True)
+                if self.media_type == OpenAPIMediaType.OPENAPI_YAML:
+                    encoded = yaml.dump(content_dict, default_flow_style=False).encode(
+                        "utf-8"
+                    )
+                    return cast("bytes", encoded)
+                return dumps(
+                    content_dict,
+                    option=OPT_INDENT_2 | OPT_OMIT_MICROSECONDS | OPT_NON_STR_KEYS,
+                )
+            return super().render(content)
+        except (AttributeError, ValueError, TypeError) as e:
+            raise ImproperlyConfiguredException(
+                "Unable to serialize response content"
+            ) from e
 
 
 def logging_exception_handler(request: Request, exc: Exception) -> Response:
@@ -74,10 +149,11 @@ class KiaraOpenAPIService:
 
         from starlite import Router
 
-        job_router = Router(path="/job", route_handlers=[JobControllerJson])
-        value_router = Router(
-            path="/data", route_handlers=[OperationControllerJson, ValueControllerJson]
+        value_router = Router(path="/data", route_handlers=[ValueControllerJson])
+        operation_router = Router(
+            path="/operations", route_handlers=[OperationControllerJson]
         )
+        job_router = Router(path="/jobs", route_handlers=[JobControllerJson])
         info_router_html = Router(
             path="/html/info", route_handlers=[OperationControllerHtml]
         )
@@ -90,6 +166,8 @@ class KiaraOpenAPIService:
 
         route_handlers = []
         route_handlers.append(value_router)
+        route_handlers.append(operation_router)
+        route_handlers.append(job_router)
         route_handlers.append(value_router_htmx)
         route_handlers.append(operation_router_htmx)
 
@@ -163,5 +241,6 @@ class KiaraOpenAPIService:
             debug=debug,
             cors_config=cors_config,
             exception_handlers=exception_handlers,
+            response_class=KiaraModelResponse,
         )
         return self._app  # type: ignore
