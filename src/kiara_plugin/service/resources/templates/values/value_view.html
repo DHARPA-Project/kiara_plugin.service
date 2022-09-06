@@ -2,7 +2,7 @@
 
 <div id="{{ element_id }}" class="grid grid-rows-1 gap-4 " >
 {{ macros.render_controls(element_id, value_id, field_name, render_value_result) }}
-{{ macros.render_controls_secondary(element_id, value_id, field_name, render_value_result) }}
+{#{{ macros.render_controls_secondary(element_id, value_id, field_name, render_value_result) }}#}
 <div class="overflow-x-scroll w-full" id="{{ element_id }}--rendered">
     {{ render_value_result.rendered | safe }}
 </div>

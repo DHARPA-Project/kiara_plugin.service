@@ -5,10 +5,11 @@ from typing import Any, Dict, List, Mapping, Union
 from kiara import Kiara, KiaraAPI, Value, ValueSchema
 from kiara.exceptions import InvalidValuesException
 from kiara.interfaces.python_api import ValueInfo, ValuesInfo
-from kiara.models.module.operation import Operation
 from kiara.models.values.matchers import ValueMatcher
 from kiara.models.values.value import SerializedData
 from kiara.registries.templates import TemplateRegistry
+from networkx import DiGraph
+from networkx.readwrite import json_graph
 from pydantic import BaseModel, Field
 from starlite import (
     Body,
@@ -37,6 +38,12 @@ class ValueControllerJson(Controller):
 
         result = kiara_api.get_value_ids()
         return result
+
+    @get(path="/value_info/{value: str}")
+    async def get_value_info(self, kiara_api: KiaraAPI, value: str) -> ValueInfo:
+
+        value_info = kiara_api.get_value_info(value=value)
+        return value_info
 
     @post(path="/values")
     async def find_values(
@@ -160,30 +167,6 @@ class ValueControllerJson(Controller):
         value = kiara_api.get_value(value)
         return value.serialized_data
 
-    @post(path="/render/manifest/{data_type:str}")
-    async def create_render_manifest(
-        self, kiara_api: KiaraAPI, data_type: str, data: Union[Dict[str, Any]] = None
-    ) -> Operation:
-
-        filters = ["select_columns"]
-        operation = kiara_api.assemble_render_pipeline(
-            data_type=data_type, target_format="html", filters=filters
-        )
-        return operation
-
-    @post(path="/render/{value:str}")
-    async def render_data(
-        self, kiara_api: KiaraAPI, value: str, data: Union[Dict[str, Any]] = None
-    ) -> Operation:
-
-        # filters = ["select_columns", "drop_columns"]
-        filters = []
-        v = kiara_api.get_value(value)
-        operation = kiara_api.render_value(
-            value=v, target_format="html", filters=filters, render_config=data
-        )
-        return operation
-
     async def filter_data(self, kiara: Kiara, value):
         raise NotImplementedError()
 
@@ -200,6 +183,24 @@ class ValueControllerJson(Controller):
             return value_map.check_invalid()
         except InvalidValuesException as ive:
             return ive.invalid_inputs
+
+    @get(path="/lineage/{value:str}")
+    async def get_value_lineage(
+        self, kiara_api: KiaraAPI, value: str
+    ) -> Dict[str, Any]:
+
+        print(f"LINEAGE REQUEST: {value}")
+        value = kiara_api.get_value(value=value)
+        try:
+            graph: DiGraph = value.lineage.module_graph
+            result = json_graph.node_link_data(graph)
+            dbg(result)
+            return result
+        except Exception as e:
+            import traceback
+
+            traceback.print_exc()
+            raise e
 
 
 class ValueControllerHtmx(Controller):
@@ -248,21 +249,36 @@ class ValueControllerHtmx(Controller):
     ) -> Template:
 
         print(f"RENDER REQUEST: {data}")
+        try:
 
-        if not hasattr(data, data.field_name):
-            raise Exception(
-                f"Request is missing the value attribute '{data.field_name}'."
+            if not hasattr(data, data.field_name):
+                raise Exception(
+                    f"Request is missing the value attribute '{data.field_name}'."
+                )
+
+            value_id = getattr(data, data.field_name)
+
+            value = kiara_api.get_value(value=value_id)
+
+            print("-------")
+            print(value)
+            render_conf = data.render_conf
+            if render_conf is None:
+                render_conf = {}
+
+            print(render_conf)
+
+            render_result = kiara_api.render_value(
+                value=value,
+                target_format=["html", "string"],
+                render_config=render_conf,
             )
+            dbg(render_result)
+        except Exception as e:
+            import traceback
 
-        value_id = getattr(data, data.field_name)
-
-        value = kiara_api.get_value(value=value_id)
-
-        render_result = kiara_api.render_value(
-            value=value,
-            target_format=["html", "string"],
-            render_config=data.render_conf,
-        )
+            traceback.print_exc()
+            raise e
 
         return Template(
             name="kiara_plugin.service/values/value_view.html",

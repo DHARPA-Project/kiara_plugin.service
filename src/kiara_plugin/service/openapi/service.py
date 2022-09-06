@@ -1,15 +1,6 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
-from typing import (
-    Any,
-    Dict,
-    List,
-    NoReturn,
-    Optional,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, Dict, List, NoReturn, Optional, TypeVar, Union, cast
 
 import structlog
 import yaml
@@ -30,6 +21,7 @@ from orjson import (
 )
 from pydantic import DirectoryPath
 from pydantic_openapi_schema.v3_1_0.open_api import OpenAPI
+from starlette.responses import JSONResponse
 from starlette.status import HTTP_204_NO_CONTENT, HTTP_304_NOT_MODIFIED
 from starlite import (
     CORSConfig,
@@ -48,12 +40,14 @@ from starlite.exceptions.utils import create_exception_response
 from starlite.template import TemplateEngineProtocol
 
 from kiara_plugin.service.defaults import KIARA_SERVICE_RESOURCES_FOLDER
+from kiara_plugin.service.models import InternalErrorModel
 from kiara_plugin.service.openapi import OperationControllerHtml
 from kiara_plugin.service.openapi.controllers.jobs import JobControllerJson
 from kiara_plugin.service.openapi.controllers.operations import (
     OperationControllerHtmx,
     OperationControllerJson,
 )
+from kiara_plugin.service.openapi.controllers.render import RenderControllerJson
 from kiara_plugin.service.openapi.controllers.values import (
     ValueControllerHtmx,
     ValueControllerJson,
@@ -136,6 +130,17 @@ def logging_exception_handler(request: Request, exc: Exception) -> Response:
     return create_exception_response(exc)
 
 
+def http_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        {"detail": exc.detail}, status_code=exc.status_code, headers=exc.headers
+    )
+
+
+def custom_exception_handler(request: Request, exc: Exception):
+    model = InternalErrorModel.from_exception(exc)
+    return JSONResponse({"detail": model.dict()}, status_code=model.status)
+
+
 class KiaraOpenAPIService:
     def __init__(self, kiara_api: KiaraAPI):
 
@@ -154,6 +159,8 @@ class KiaraOpenAPIService:
             path="/operations", route_handlers=[OperationControllerJson]
         )
         job_router = Router(path="/jobs", route_handlers=[JobControllerJson])
+        render_router = Router(path="/render", route_handlers=[RenderControllerJson])
+
         info_router_html = Router(
             path="/html/info", route_handlers=[OperationControllerHtml]
         )
@@ -168,6 +175,7 @@ class KiaraOpenAPIService:
         route_handlers.append(value_router)
         route_handlers.append(operation_router)
         route_handlers.append(job_router)
+        route_handlers.append(render_router)
         route_handlers.append(value_router_htmx)
         route_handlers.append(operation_router_htmx)
 
@@ -208,9 +216,11 @@ class KiaraOpenAPIService:
 
         cors_config = CORSConfig()
         exception_handlers = {}
-
-        if is_debug() or is_develop():
-            exception_handlers[HTTPException] = logging_exception_handler
+        exception_handlers[HTTPException] = http_exception_handler
+        exception_handlers[Exception] = custom_exception_handler
+        # if is_debug() or is_develop():
+        #     exception_handlers[HTTPException] = logging_exception_handler
+        # exception_handlers[Exception] = http_exception_handler
 
         def get_kiara_context(state: State) -> Kiara:
             if not hasattr(state, "kiara"):

@@ -4,11 +4,7 @@ from typing import Any, Mapping
 from kiara import KiaraAPI
 from kiara.models.module.jobs import ActiveJob
 from pydantic import BaseModel, Extra, Field
-from starlite import (
-    Controller,
-    get,
-    post,
-)
+from starlite import Controller, get, post
 
 
 class RunJobRequest(BaseModel):

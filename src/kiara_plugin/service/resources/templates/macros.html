@@ -19,6 +19,7 @@
 
 {% macro render_controls_secondary(element_id, value_id, field_name, render_value_result) %}
 <div class="flex flex-row justify-center items-center">
+{% if render_value_result %}
     {% for category_name, category_scene in render_value_result.related_scenes.items() if not scene or scene.disabled %}
         {% for scene_name, scene in category_scene.related_scenes.items()  %}
             <form hx-post="/html/values/render" hx-target="#{{ element_id }}">
@@ -34,6 +35,7 @@
             </form>
         {% endfor %}
     {% endfor %}
+{% endif %}
 </div>
 {% endmacro %}
 
