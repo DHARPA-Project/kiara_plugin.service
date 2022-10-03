@@ -35,7 +35,7 @@ from starlite import (
     TemplateConfig,
 )
 from starlite.enums import MediaType, OpenAPIMediaType
-from starlite.exceptions import ImproperlyConfiguredException, TemplateNotFound
+from starlite.exceptions import ImproperlyConfiguredException, TemplateNotFoundException
 from starlite.exceptions.utils import create_exception_response
 from starlite.template import TemplateEngineProtocol
 
@@ -47,11 +47,13 @@ from kiara_plugin.service.openapi.controllers.operations import (
     OperationControllerHtmx,
     OperationControllerJson,
 )
+from kiara_plugin.service.openapi.controllers.pipeline import PipelineControllerJson
 from kiara_plugin.service.openapi.controllers.render import RenderControllerJson
 from kiara_plugin.service.openapi.controllers.values import (
     ValueControllerHtmx,
     ValueControllerJson,
 )
+from kiara_plugin.service.openapi.controllers.workflows import WorkflowControllerJson
 
 T = TypeVar("T")
 
@@ -160,6 +162,8 @@ class KiaraOpenAPIService:
         )
         job_router = Router(path="/jobs", route_handlers=[JobControllerJson])
         render_router = Router(path="/render", route_handlers=[RenderControllerJson])
+        workflow_router = Router(path="/workflows", route_handlers=[WorkflowControllerJson])
+        pipeline_router = Router(path="/pipelines", route_handlers=[PipelineControllerJson])
 
         info_router_html = Router(
             path="/html/info", route_handlers=[OperationControllerHtml]
@@ -176,6 +180,9 @@ class KiaraOpenAPIService:
         route_handlers.append(operation_router)
         route_handlers.append(job_router)
         route_handlers.append(render_router)
+        route_handlers.append(workflow_router)
+        route_handlers.append(pipeline_router)
+
         route_handlers.append(value_router_htmx)
         route_handlers.append(operation_router_htmx)
 
@@ -202,7 +209,7 @@ class KiaraOpenAPIService:
                 try:
                     return self.engine.get_template(name=name)
                 except JinjaTemplateNotFound as exc:
-                    raise TemplateNotFound(template_name=name) from exc
+                    raise TemplateNotFoundException(template_name=name) from exc
 
         def engine_callback(jinja_engine: KiaraTemplateEngine) -> KiaraTemplateEngine:
             jinja_engine.engine.globals["kiara_api"] = self._kiara_api
