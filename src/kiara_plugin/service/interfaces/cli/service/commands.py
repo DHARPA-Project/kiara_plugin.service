@@ -12,7 +12,7 @@ import rich_click as click
 from hypercorn.asyncio import serve
 from kiara.interfaces.python_api import KiaraAPI
 from kiara.utils import is_develop
-
+from starlite.datastructures.response_containers import ResponseContainer
 from kiara_plugin.service.openapi.service import KiaraOpenAPIService
 
 
@@ -23,8 +23,11 @@ def service(ctx):
 
 
 @service.command()
+@click.option(
+    "--host", help="The host to bind to.", required=False, default="localhost:8080"
+)
 @click.pass_context
-def start(ctx):
+def start(ctx, host: str):
     """Start a kiara (web) service."""
     import uvloop
 
@@ -35,7 +38,7 @@ def start(ctx):
     from hypercorn.config import Config
 
     config = Config()
-    config.bind = ["localhost:8080"]
+    config.bind = [host]
 
     if is_develop():
         config.use_reloader = True

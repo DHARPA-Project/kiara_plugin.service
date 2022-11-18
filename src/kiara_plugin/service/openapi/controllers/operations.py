@@ -90,7 +90,7 @@ class OperationControllerJson(Controller):
         self, kiara_api: KiaraAPI, operation_id: str
     ) -> OperationInfo:
 
-        op = kiara_api.get_operation_info(operation_id=operation_id)
+        op = kiara_api.get_operation_info(operation=operation_id)
         return op
 
 
@@ -114,7 +114,7 @@ class OperationControllerHtmx(Controller):
 
         print(f"Operation info request: {data}")
 
-        op_info = kiara_api.get_operation_info(operation_id=data.operation_id)
+        op_info = kiara_api.get_operation_info(operation=data.operation_id)
 
         return Template(
             name="kiara_plugin.service/operations/operation_view.html",

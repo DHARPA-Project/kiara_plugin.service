@@ -21,11 +21,8 @@ from orjson import (
 )
 from pydantic import DirectoryPath
 from pydantic_openapi_schema.v3_1_0.open_api import OpenAPI
-from starlette.responses import JSONResponse
-from starlette.status import HTTP_204_NO_CONTENT, HTTP_304_NOT_MODIFIED
 from starlite import (
     CORSConfig,
-    HTTPException,
     Provide,
     Request,
     Response,
@@ -36,11 +33,11 @@ from starlite import (
 )
 from starlite.enums import MediaType, OpenAPIMediaType
 from starlite.exceptions import ImproperlyConfiguredException, TemplateNotFoundException
-from starlite.exceptions.utils import create_exception_response
+from starlite.status_codes import HTTP_204_NO_CONTENT, HTTP_304_NOT_MODIFIED
 from starlite.template import TemplateEngineProtocol
+from starlite.utils import create_exception_response
 
 from kiara_plugin.service.defaults import KIARA_SERVICE_RESOURCES_FOLDER
-from kiara_plugin.service.models import InternalErrorModel
 from kiara_plugin.service.openapi import OperationControllerHtml
 from kiara_plugin.service.openapi.controllers.jobs import JobControllerJson
 from kiara_plugin.service.openapi.controllers.operations import (
@@ -132,15 +129,28 @@ def logging_exception_handler(request: Request, exc: Exception) -> Response:
     return create_exception_response(exc)
 
 
-def http_exception_handler(request: Request, exc: HTTPException):
-    return JSONResponse(
-        {"detail": exc.detail}, status_code=exc.status_code, headers=exc.headers
-    )
+# def http_exception_handler(_: Request, exc: Exception) -> Response:
+#     """Default handler for exceptions subclassed from HTTPException"""
+#     status_code = HTTP_500_INTERNAL_SERVER_ERROR
+#     detail = ""
+#     if hasattr(exc, "detail"):
+#         detail = exc.detail
+#     if hasattr(exc, "status_code"):
+#         status_code = exc.status_code
+#     return Response(
+#         media_type=MediaType.TEXT,
+#         content=detail,
+#         status_code=status_code,
+#     )
+# def http_exception_handler(request: Request, exc: HTTPException):
+#     return JSONResponse(
+#         {"detail": exc.detail}, status_code=exc.status_code, headers=exc.headers
+#     )
 
 
-def custom_exception_handler(request: Request, exc: Exception):
-    model = InternalErrorModel.from_exception(exc)
-    return JSONResponse({"detail": model.dict()}, status_code=model.status)
+# def custom_exception_handler(request: Request, exc: Exception):
+#     model = InternalErrorModel.from_exception(exc)
+#     return JSONResponse({"detail": model.dict()}, status_code=model.status)
 
 
 class KiaraOpenAPIService:
@@ -162,8 +172,12 @@ class KiaraOpenAPIService:
         )
         job_router = Router(path="/jobs", route_handlers=[JobControllerJson])
         render_router = Router(path="/render", route_handlers=[RenderControllerJson])
-        workflow_router = Router(path="/workflows", route_handlers=[WorkflowControllerJson])
-        pipeline_router = Router(path="/pipelines", route_handlers=[PipelineControllerJson])
+        workflow_router = Router(
+            path="/workflows", route_handlers=[WorkflowControllerJson]
+        )
+        pipeline_router = Router(
+            path="/pipelines", route_handlers=[PipelineControllerJson]
+        )
 
         info_router_html = Router(
             path="/html/info", route_handlers=[OperationControllerHtml]
@@ -223,8 +237,8 @@ class KiaraOpenAPIService:
 
         cors_config = CORSConfig()
         exception_handlers = {}
-        exception_handlers[HTTPException] = http_exception_handler
-        exception_handlers[Exception] = custom_exception_handler
+        # exception_handlers[HTTPException] = http_exception_handler
+        # exception_handlers[Exception] = custom_exception_handler
         # if is_debug() or is_develop():
         #     exception_handlers[HTTPException] = logging_exception_handler
         # exception_handlers[Exception] = http_exception_handler
