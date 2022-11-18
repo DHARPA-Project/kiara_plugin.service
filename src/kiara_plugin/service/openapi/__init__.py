@@ -3,7 +3,7 @@ from typing import Any, Dict, Union
 
 from kiara.context import Kiara
 from pydantic import BaseModel, Extra, Field
-from starlite import Controller, MediaType, get, post, ResponseContainer
+from starlite import Controller, MediaType, get, post
 
 
 class OperationControllerHtml(Controller):
