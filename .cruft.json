@@ -11,9 +11,6 @@
       "project_short_description": "A plugin to create, run and manage a service for kiara functionality.",
       "github_user": "DHARPA-Project",
       "anaconda_user": "dharpa",
-      "_extensions": [
-        "cookiecutter.extensions.JsonifyExtension"
-      ],
       "_template": "https://github.com/DHARPA-Project/kiara_plugin.develop.git"
     }
   },
