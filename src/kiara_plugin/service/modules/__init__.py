@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from kiara.models.values.value import ValueMap
-from kiara.modules import KiaraModule, KiaraModuleConfig, ValueSetSchema
+from kiara import KiaraModule, KiaraModuleConfig, ValueMap, ValueMapSchema
 from pydantic import Field
 
 
@@ -40,7 +39,7 @@ class ExampleModule(KiaraModule):
 
     def create_inputs_schema(
         self,
-    ) -> ValueSetSchema:
+    ) -> ValueMapSchema:
 
         inputs = {
             "text_1": {"type": "string", "doc": "The first text."},
@@ -51,7 +50,7 @@ class ExampleModule(KiaraModule):
 
     def create_outputs_schema(
         self,
-    ) -> ValueSetSchema:
+    ) -> ValueMapSchema:
 
         outputs = {
             "text": {

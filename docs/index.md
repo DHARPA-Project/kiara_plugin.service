@@ -11,7 +11,7 @@ A plugin to create, run and manage a service for kiara functionality.
 {% for item_type, item_group in get_context_info().get_all_info().items() %}
 
 ### {{ item_type }}
-{% for item, details in item_group.items() %}
+{% for item, details in item_group.item_infos.items() %}
 - [`{{ item }}`][kiara_info.{{ item_type }}.{{ item }}]: {{ details.documentation.description }}
 {% endfor %}
 {% endfor %}
