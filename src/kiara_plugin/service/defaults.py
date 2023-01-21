@@ -6,7 +6,7 @@ from appdirs import AppDirs
 
 kiara_html_app_dirs = AppDirs("kiara-service", "frkl")
 
-if not hasattr(sys, "frozen"):
+if not hasattr(sys, "_MEIPASS"):
     KIARA_MODULE_BASE_FOLDER = os.path.dirname(__file__)
     """Marker to indicate the base folder for the `kiara_streamlit` module."""
 else:

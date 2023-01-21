@@ -36,13 +36,13 @@ class ValueControllerJson(Controller):
     @get(path="/ids")
     async def list_valueids(self, kiara_api: KiaraAPI) -> List[uuid.UUID]:
 
-        result = kiara_api.get_value_ids()
+        result = kiara_api.list_value_ids()
         return result
 
     @get(path="/value_info/{value: str}")
     async def get_value_info(self, kiara_api: KiaraAPI, value: str) -> ValueInfo:
 
-        value_info = kiara_api.get_value_info(value=value)
+        value_info = kiara_api.retrieve_value_info(value=value)
         return value_info
 
     @post(path="/values")
@@ -68,7 +68,7 @@ class ValueControllerJson(Controller):
         else:
             matcher_data = data.dict()
 
-        result = kiara_api.get_values_info(**matcher_data)
+        result = kiara_api.retrieve_values_info(**matcher_data)
         return result.item_infos
 
     @get(path="/type/{data_type:str}/values")
@@ -88,7 +88,7 @@ class ValueControllerJson(Controller):
 
         matcher = ValueMatcher(data_types=[data_type])
 
-        result = kiara_api.get_values_info(**matcher.dict())
+        result = kiara_api.retrieve_values_info(**matcher.dict())
         return result
 
     @post(path="/alias_names")
@@ -100,7 +100,7 @@ class ValueControllerJson(Controller):
             matcher_data = {}
         else:
             matcher_data = data.dict()
-        result = kiara_api.get_alias_names(**matcher_data)
+        result = kiara_api.list_alias_names(**matcher_data)
         return result
 
     @post(path="/aliases")
@@ -126,7 +126,7 @@ class ValueControllerJson(Controller):
         else:
             matcher_data = data.dict()
 
-        result = kiara_api.get_aliases_info(**matcher_data)
+        result = kiara_api.retrieve_aliases_info(**matcher_data)
         return result.item_infos
 
     @get(path="/type/{data_type:str}/aliases")
@@ -146,7 +146,7 @@ class ValueControllerJson(Controller):
 
         matcher = ValueMatcher(data_types=[data_type], has_alias=True)
 
-        result = kiara_api.get_alias_names(**matcher.dict())
+        result = kiara_api.list_alias_names(**matcher.dict())
         return result
 
     @get(path="/type/{data_type:str}/aliases_info")
@@ -156,7 +156,7 @@ class ValueControllerJson(Controller):
 
         matcher = ValueMatcher(data_types=[data_type], has_alias=True)
 
-        result = kiara_api.get_aliases_info(**matcher.dict())
+        result = kiara_api.retrieve_aliases_info(**matcher.dict())
         return result
 
     @get(path="/serialized/{value:uuid}")
@@ -164,8 +164,8 @@ class ValueControllerJson(Controller):
         self, kiara_api: KiaraAPI, value: Union[str, uuid.UUID]
     ) -> SerializedData:
 
-        value = kiara_api.get_value(value)
-        return value.serialized_data
+        _value = kiara_api.get_value(value)
+        return _value.serialized_data
 
     async def filter_data(self, kiara: Kiara, value):
         raise NotImplementedError()
@@ -182,7 +182,7 @@ class ValueControllerJson(Controller):
             )
             return value_map.check_invalid()
         except InvalidValuesException as ive:
-            return ive.invalid_inputs
+            return dict(ive.invalid_inputs)
 
     @get(path="/lineage/{value:str}")
     async def get_value_lineage(
@@ -190,11 +190,10 @@ class ValueControllerJson(Controller):
     ) -> Dict[str, Any]:
 
         print(f"LINEAGE REQUEST: {value}")
-        value = kiara_api.get_value(value=value)
+        _value = kiara_api.get_value(value=value)
         try:
-            graph: DiGraph = value.lineage.module_graph
+            graph: DiGraph = _value.lineage.module_graph
             result = json_graph.node_link_data(graph)
-            dbg(result)
             return result
         except Exception as e:
             import traceback
@@ -273,7 +272,6 @@ class ValueControllerHtmx(Controller):
                 target_format=["html", "string"],
                 render_config=render_conf,
             )
-            dbg(render_result)
         except Exception as e:
             import traceback
 

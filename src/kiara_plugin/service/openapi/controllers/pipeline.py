@@ -29,5 +29,4 @@ class PipelineControllerJson(Controller):
         info = PipelineStructureInfo.create_from_instance(
             kiara=kiara_api.context, instance=pipeline_config.structure
         )
-        dbg(info.dict())
         return info

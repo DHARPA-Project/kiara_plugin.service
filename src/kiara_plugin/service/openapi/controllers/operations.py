@@ -64,7 +64,7 @@ class OperationControllerJson(Controller):
             filters = data.filters
             include_internal = data.include_internal
 
-        operations = kiara_api.get_operations_info(
+        operations = kiara_api.retrieve_operations_info(
             *filters, include_internal=include_internal
         )
         return operations.item_infos  # type: ignore
@@ -80,7 +80,7 @@ class OperationControllerJson(Controller):
             filters = data.filters
             include_internal = data.include_internal
 
-        operation_ids = kiara_api.get_operation_ids(
+        operation_ids = kiara_api.list_operation_ids(
             *filters, include_internal=include_internal
         )
         return operation_ids
@@ -90,7 +90,7 @@ class OperationControllerJson(Controller):
         self, kiara_api: KiaraAPI, operation_id: str
     ) -> OperationInfo:
 
-        op = kiara_api.get_operation_info(operation=operation_id)
+        op = kiara_api.retrieve_operation_info(operation=operation_id)
         return op
 
 
@@ -114,7 +114,7 @@ class OperationControllerHtmx(Controller):
 
         print(f"Operation info request: {data}")
 
-        op_info = kiara_api.get_operation_info(operation=data.operation_id)
+        op_info = kiara_api.retrieve_operation_info(operation=data.operation_id)
 
         return Template(
             name="kiara_plugin.service/operations/operation_view.html",
@@ -144,10 +144,10 @@ class OperationControllerHtmx(Controller):
                 data_type_instance = data_type_cls(**schema.type_config)
                 if data_type_instance.characteristics.is_scalar:
                     template_name = (
-                        f"kiara_plugin.service/values/inputs/generic-scalar.html"
+                        "kiara_plugin.service/values/inputs/generic-scalar.html"
                     )
                 else:
-                    template_name = f"kiara_plugin.service/values/inputs/generic.html"
+                    template_name = "kiara_plugin.service/values/inputs/generic.html"
             try:
                 template = template_registry.get_template(template_name)
                 rendered = template.render(
@@ -164,7 +164,6 @@ class OperationControllerHtmx(Controller):
 
             fields[field_name] = rendered
 
-        dbg(fields)
         return Template(
             name="kiara_plugin.service/values/value_inputs_form.html",
             context={"fields": fields},
@@ -217,8 +216,6 @@ class OperationControllerHtmx(Controller):
         job_id = uuid.UUID(data.job_id)
         job = kiara_api.get_job(job_id=job_id)
 
-        dbg(job.dict())
-
         if job.finished is None:
             return Template(
                 name="kiara_plugin.service/jobs/job_monitor.html",
@@ -226,7 +223,7 @@ class OperationControllerHtmx(Controller):
             )
         else:
             if job.status == JobStatus.SUCCESS:
-                results = kiara_api.retrieve_job_result(job_id)
+                results = kiara_api.get_job_result(job_id)
                 error = None
             else:
                 results = {}

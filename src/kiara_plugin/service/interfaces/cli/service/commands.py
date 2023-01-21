@@ -29,9 +29,13 @@ def service(ctx):
 @click.pass_context
 def start(ctx, host: str):
     """Start a kiara (web) service."""
-    import uvloop
 
-    uvloop.install()
+    try:
+        import uvloop
+
+        uvloop.install()
+    except Exception:
+        pass
 
     kiara_api: KiaraAPI = ctx.obj["kiara_api"]
     kiara_service = KiaraOpenAPIService(kiara_api=kiara_api)

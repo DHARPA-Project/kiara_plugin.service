@@ -57,6 +57,4 @@ class JobControllerJson(Controller):
 
         job = kiara_api.get_job(job_id=job_id)
 
-        dbg(job.dict())
-
         return job

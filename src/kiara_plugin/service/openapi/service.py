@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
-from typing import Any, Dict, List, NoReturn, Optional, TypeVar, Union, cast
+from typing import Any, Dict, List, NoReturn, TypeVar, Union, cast
 
 import structlog
-import yaml
 from hypercorn.typing import ASGIFramework
 from jinja2 import Template as JinjaTemplate
 from jinja2 import TemplateNotFound as JinjaTemplateNotFound
@@ -21,6 +20,7 @@ from orjson import (
 )
 from pydantic import DirectoryPath
 from pydantic_openapi_schema.v3_1_0.open_api import OpenAPI
+from ruamel.yaml import YAML
 from starlite import (
     CORSConfig,
     Provide,
@@ -35,10 +35,10 @@ from starlite.enums import MediaType, OpenAPIMediaType
 from starlite.exceptions import ImproperlyConfiguredException, TemplateNotFoundException
 from starlite.status_codes import HTTP_204_NO_CONTENT, HTTP_304_NOT_MODIFIED
 from starlite.template import TemplateEngineProtocol
+from starlite.types import ExceptionHandler
 from starlite.utils import create_exception_response
 
 from kiara_plugin.service.defaults import KIARA_SERVICE_RESOURCES_FOLDER
-from kiara_plugin.service.openapi import OperationControllerHtml
 from kiara_plugin.service.openapi.controllers.jobs import JobControllerJson
 from kiara_plugin.service.openapi.controllers.operations import (
     OperationControllerHtmx,
@@ -56,6 +56,7 @@ T = TypeVar("T")
 
 
 logger = structlog.getLogger()
+yaml = YAML(typ="safe")
 
 
 class KiaraModelResponse(Response):
@@ -94,9 +95,7 @@ class KiaraModelResponse(Response):
             if isinstance(content, OpenAPI):
                 content_dict = content.dict(by_alias=True, exclude_none=True)
                 if self.media_type == OpenAPIMediaType.OPENAPI_YAML:
-                    encoded = yaml.dump(content_dict, default_flow_style=False).encode(
-                        "utf-8"
-                    )
+                    encoded = yaml.dump(content_dict).encode("utf-8")
                     return cast("bytes", encoded)
                 return dumps(
                     content_dict,
@@ -157,7 +156,7 @@ class KiaraOpenAPIService:
     def __init__(self, kiara_api: KiaraAPI):
 
         self._kiara_api: KiaraAPI = kiara_api
-        self._app: Optional[ASGIFramework] = None
+        self._app: Union[ASGIFramework, None] = None
         self._resources_base: Path = Path(KIARA_SERVICE_RESOURCES_FOLDER)
 
     def app(self) -> ASGIFramework:
@@ -179,9 +178,9 @@ class KiaraOpenAPIService:
             path="/pipelines", route_handlers=[PipelineControllerJson]
         )
 
-        info_router_html = Router(
-            path="/html/info", route_handlers=[OperationControllerHtml]
-        )
+        # info_router_html = Router(
+        #     path="/html/info", route_handlers=[OperationControllerHtml]
+        # )
         value_router_htmx = Router(
             path="/html/values", route_handlers=[ValueControllerHtmx]
         )
@@ -236,7 +235,7 @@ class KiaraOpenAPIService:
         debug = is_debug() or is_develop()
 
         cors_config = CORSConfig()
-        exception_handlers = {}
+        exception_handlers: Dict[str, ExceptionHandler] = {}
         # exception_handlers[HTTPException] = http_exception_handler
         # exception_handlers[Exception] = custom_exception_handler
         # if is_debug() or is_develop():

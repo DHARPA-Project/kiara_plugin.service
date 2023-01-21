@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import Any, Dict, Mapping, Union
+from typing import Any, Dict, List, Mapping, Union
 
 from kiara import KiaraAPI, ValueSchema
 from kiara.models.module.operation import Operation
@@ -35,7 +35,7 @@ class RenderControllerJson(Controller):
         kiara_api: KiaraAPI,
         value: str,
         target_format: str = "html",
-        data: Union[Dict[str, Any]] = None,
+        data: Union[None, Dict[str, Any]] = None,
     ) -> RenderValueResult:
         """Queue a render job for the specified value id or alias.
 
@@ -49,7 +49,7 @@ class RenderControllerJson(Controller):
         """
 
         # filters = ["select_columns", "drop_columns"]
-        filters = []
+        filters: List[str] = []
         v = kiara_api.get_value(value)
         result = kiara_api.render_value(
             value=v, target_format=target_format, filters=filters, render_config=data
@@ -62,11 +62,11 @@ class RenderControllerJson(Controller):
         kiara_api: KiaraAPI,
         value: str,
         target_format: str = "html",
-        data: Union[Dict[str, Any]] = None,
+        data: Union[Dict[str, Any], None] = None,
     ) -> str:
 
         print(f"RENDER VALUE INFO REQUEST: {value}")
 
-        value_info = kiara_api.get_value_info(value)
+        value_info = kiara_api.retrieve_value_info(value)
         html = value_info.create_html()
         return html

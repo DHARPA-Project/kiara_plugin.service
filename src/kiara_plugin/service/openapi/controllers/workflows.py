@@ -23,24 +23,26 @@ class WorkflowControllerJson(Controller):
         self, kiara_api: KiaraAPI, data: Union[WorkflowMatcher, None] = None
     ) -> Dict[str, WorkflowInfo]:
 
-        if data is None:
-            filters: List[str] = []
-        else:
-            filters = data.filters
+        # if data is None:
+        #     filters: List[str] = []
+        # else:
+        #     filters = data.filters
 
-        return {}
+        result = kiara_api.list_workflow_ids()
+        return result
 
     @post(path="/aliases")
-    async def list_workflows(
+    async def list_workflow_aliases(
         self, kiara_api: KiaraAPI, data: Union[WorkflowMatcher, None] = None
-    ) -> Dict[str, WorkflowInfo]:
+    ) -> List[str]:
 
-        if data is None:
-            filters: List[str] = []
-        else:
-            filters = data.filters
+        # if data is None:
+        #     filters: List[str] = []
+        # else:
+        #     filters = data.filters
 
-        return {}
+        result = kiara_api.list_workflow_alias_names()
+        return result
 
     @get(path="/workflow_info/{workflow: str}")
     async def get_workflow_info(
@@ -48,5 +50,5 @@ class WorkflowControllerJson(Controller):
     ) -> WorkflowInfo:
 
         print(f"INFO: {workflow}")
-        workflow_info = kiara_api.get_workflow_info(workflow=workflow)
+        workflow_info = kiara_api.retrieve_workflow_info(workflow=workflow)
         return workflow_info
