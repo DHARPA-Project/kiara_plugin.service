@@ -658,8 +658,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.service.models.InternalErrorModel.exception" class="md-nav__link">
-    exception
+  <a href="#kiara_plugin.service.models.InternalErrorModel.status" class="md-nav__link">
+    status
   </a>
   
 </li>
@@ -672,8 +672,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.service.models.InternalErrorModel.status" class="md-nav__link">
-    status
+  <a href="#kiara_plugin.service.models.InternalErrorModel.exception" class="md-nav__link">
+    exception
   </a>
   
 </li>
@@ -1004,8 +1004,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.service.models.InternalErrorModel.exception" class="md-nav__link">
-    exception
+  <a href="#kiara_plugin.service.models.InternalErrorModel.status" class="md-nav__link">
+    status
   </a>
   
 </li>
@@ -1018,8 +1018,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.service.models.InternalErrorModel.status" class="md-nav__link">
-    status
+  <a href="#kiara_plugin.service.models.InternalErrorModel.exception" class="md-nav__link">
+    exception
   </a>
   
 </li>
@@ -1180,14 +1180,14 @@ sub-class a pydantic BaseModel or implement custom base classes.</p>
 
 
 
-<h5 id="kiara_plugin.service.models.InternalErrorModel.exception" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">exception</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;More details about the underlying error.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h5 id="kiara_plugin.service.models.InternalErrorModel.status" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">status</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The status code code.&#39;</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
   </span>
 
-<a href="#kiara_plugin.service.models.InternalErrorModel.exception" class="headerlink" title="Permanent link">&para;</a></h5>
+<a href="#kiara_plugin.service.models.InternalErrorModel.status" class="headerlink" title="Permanent link">&para;</a></h5>
 
 
   <div class="doc doc-contents ">
@@ -1218,14 +1218,14 @@ sub-class a pydantic BaseModel or implement custom base classes.</p>
 
 
 
-<h5 id="kiara_plugin.service.models.InternalErrorModel.status" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">status</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The status code code.&#39;</span><span class="p">)</span></code>
+<h5 id="kiara_plugin.service.models.InternalErrorModel.exception" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">exception</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;More details about the underlying error.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
   </span>
 
-<a href="#kiara_plugin.service.models.InternalErrorModel.status" class="headerlink" title="Permanent link">&para;</a></h5>
+<a href="#kiara_plugin.service.models.InternalErrorModel.exception" class="headerlink" title="Permanent link">&para;</a></h5>
 
 
   <div class="doc doc-contents ">
@@ -1240,7 +1240,7 @@ sub-class a pydantic BaseModel or implement custom base classes.</p>
 
 
 <h5 id="kiara_plugin.service.models.InternalErrorModel.from_exception" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">from_exception</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">from_exception</span><span class="p">(</span><span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>

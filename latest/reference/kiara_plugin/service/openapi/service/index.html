@@ -879,15 +879,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.render" class="md-nav__link">
-    render()
+  <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.serializer" class="md-nav__link">
+    serializer()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.serializer" class="md-nav__link">
-    serializer()
+  <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.render" class="md-nav__link">
+    render()
   </a>
   
 </li>
@@ -1120,15 +1120,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.render" class="md-nav__link">
-    render()
+  <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.serializer" class="md-nav__link">
+    serializer()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.serializer" class="md-nav__link">
-    serializer()
+  <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.render" class="md-nav__link">
+    render()
   </a>
   
 </li>
@@ -1447,8 +1447,35 @@
 
 
 
+<h5 id="kiara_plugin.service.openapi.service.KiaraModelResponse.serializer" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">serializer</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></code>
+
+<a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.serializer" class="headerlink" title="Permanent link">&para;</a></h5>
+
+
+  <div class="doc doc-contents ">
+
+      <details class="quote">
+        <summary>Source code in <code>kiara_plugin/service/openapi/service.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serializer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">KiaraModel</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">serializer</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
 <h5 id="kiara_plugin.service.openapi.service.KiaraModelResponse.render" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">render</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">render</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span></code>
 
 <a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.render" class="headerlink" title="Permanent link">&para;</a></h5>
 
@@ -1582,33 +1609,6 @@
         <span class="k">raise</span> <span class="n">ImproperlyConfiguredException</span><span class="p">(</span>
             <span class="s2">&quot;Unable to serialize response content&quot;</span>
         <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h5 id="kiara_plugin.service.openapi.service.KiaraModelResponse.serializer" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">serializer</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
-
-<a href="#kiara_plugin.service.openapi.service.KiaraModelResponse.serializer" class="headerlink" title="Permanent link">&para;</a></h5>
-
-
-  <div class="doc doc-contents ">
-
-      <details class="quote">
-        <summary>Source code in <code>kiara_plugin/service/openapi/service.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serializer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">KiaraModel</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
-    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">serializer</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -1903,7 +1903,7 @@
 
 
 <h5 id="kiara_plugin.service.openapi.service.KiaraOpenAPIService.app" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">app</span><span class="p">()</span></code>
+<code class="highlight language-python"><span class="n">app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ASGIFramework</span></code>
 
 <a href="#kiara_plugin.service.openapi.service.KiaraOpenAPIService.app" class="headerlink" title="Permanent link">&para;</a></h5>
 
@@ -2161,7 +2161,7 @@
 
 
 <h3 id="kiara_plugin.service.openapi.service.logging_exception_handler" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">logging_exception_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">logging_exception_handler</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span></code>
 
 <a href="#kiara_plugin.service.openapi.service.logging_exception_handler" class="headerlink" title="Permanent link">&para;</a></h3>
 
