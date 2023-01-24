@@ -30,8 +30,8 @@ classifiers = [
     "Programming Language :: Python :: 3.11"
 ]
 dependencies = [
-    "kiara>=0.4.22",
-    "kiara_plugin.core_types>=0.4.12",
+    "kiara>=0.4.29",
+    "kiara_plugin.core_types>=0.4.14",
     "starlite==1.39.0"
 ]
 dynamic = ["version"]
@@ -41,7 +41,9 @@ dev_documentation = [
     "kiara[dev_documentation]"
 ]
 dev_testing = [
-    "kiara[dev_testing]"
+    "kiara[dev_testing]",
+    "types-setuptools",
+    "sqlalchemy-stubs"
 ]
 dev_utils = [
     "kiara[dev_utils]"
@@ -49,6 +51,25 @@ dev_utils = [
 dev_all = [
     "kiara[dev_all]"
 ]
+
+[project.entry-points."kiara.plugin"]
+service = "kiara_plugin.service"
+
+[project.entry-points."kiara.cli_subcommands"]
+service = "kiara_plugin.service.interfaces.cli.service.commands:service"
+
+[project.entry-points."kiara.data_types"]
+service = "kiara_plugin.service:find_data_types"
+
+[project.entry-points."kiara.model_classes"]
+service = "kiara_plugin.service:find_model_classes"
+
+[project.entry-points."kiara.modules"]
+service = "kiara_plugin.service:find_modules"
+
+[project.entry-points."kiara.pipelines"]
+service = "kiara_plugin.service:find_pipelines"
+
 
 [project.urls]
 homepage = "https://github.com/DHARPA-Project/kiara_plugin.service"
