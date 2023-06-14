@@ -3,14 +3,8 @@ from pathlib import Path
 from typing import Any, Dict, List, NoReturn, TypeVar, Union, cast
 
 import structlog
-from hypercorn.typing import ASGIFramework
 from jinja2 import Template as JinjaTemplate
 from jinja2 import TemplateNotFound as JinjaTemplateNotFound
-from kiara.context import Kiara
-from kiara.interfaces.python_api import KiaraAPI
-from kiara.models import KiaraModel
-from kiara.registries.templates import TemplateRegistry
-from kiara.utils import is_debug, is_develop
 from orjson import (
     OPT_INDENT_2,
     OPT_NON_STR_KEYS,
@@ -35,9 +29,17 @@ from starlite.enums import MediaType, OpenAPIMediaType
 from starlite.exceptions import ImproperlyConfiguredException, TemplateNotFoundException
 from starlite.status_codes import HTTP_204_NO_CONTENT, HTTP_304_NOT_MODIFIED
 from starlite.template import TemplateEngineProtocol
-from starlite.types import ExceptionHandler
+from starlite.types import (
+    ControllerRouterHandler,
+    ExceptionHandlersMap,
+)
 from starlite.utils import create_exception_response
 
+from kiara.context import Kiara
+from kiara.interfaces.python_api import KiaraAPI
+from kiara.models import KiaraModel
+from kiara.registries.templates import TemplateRegistry
+from kiara.utils import is_debug, is_develop
 from kiara_plugin.service.defaults import KIARA_SERVICE_RESOURCES_FOLDER
 from kiara_plugin.service.openapi.controllers.jobs import JobControllerJson
 from kiara_plugin.service.openapi.controllers.operations import (
@@ -60,7 +62,8 @@ yaml = YAML(typ="safe")
 
 
 class KiaraModelResponse(Response):
-    def serializer(self, value: Any) -> Dict[str, Any]:
+    @classmethod
+    def serializer(cls, value: Any) -> Dict[str, Any]:
         if isinstance(value, KiaraModel):
             return value.dict()
         return super().serializer(value)
@@ -156,10 +159,10 @@ class KiaraOpenAPIService:
     def __init__(self, kiara_api: KiaraAPI):
 
         self._kiara_api: KiaraAPI = kiara_api
-        self._app: Union[ASGIFramework, None] = None
+        self._app: Union[Starlite, None] = None
         self._resources_base: Path = Path(KIARA_SERVICE_RESOURCES_FOLDER)
 
-    def app(self) -> ASGIFramework:
+    def app(self) -> Starlite:
         if self._app is not None:
             return self._app
 
@@ -181,14 +184,14 @@ class KiaraOpenAPIService:
         # info_router_html = Router(
         #     path="/html/info", route_handlers=[OperationControllerHtml]
         # )
-        value_router_htmx = Router(
+        Router(
             path="/html/values", route_handlers=[ValueControllerHtmx]
         )
-        operation_router_htmx = Router(
+        Router(
             path="/html/operations", route_handlers=[OperationControllerHtmx]
         )
 
-        route_handlers = []
+        route_handlers: List[ControllerRouterHandler] = []
         route_handlers.append(value_router)
         route_handlers.append(operation_router)
         route_handlers.append(job_router)
@@ -196,8 +199,8 @@ class KiaraOpenAPIService:
         route_handlers.append(workflow_router)
         route_handlers.append(pipeline_router)
 
-        route_handlers.append(value_router_htmx)
-        route_handlers.append(operation_router_htmx)
+        # route_handlers.append(value_router_htmx)
+        # route_handlers.append(operation_router_htmx)
 
         static_dir = self._resources_base / "static"
 
@@ -228,31 +231,31 @@ class KiaraOpenAPIService:
             jinja_engine.engine.globals["kiara_api"] = self._kiara_api
             return jinja_engine
 
-        template_config = TemplateConfig(
+        template_config: TemplateConfig = TemplateConfig(
             directory=[], engine=KiaraTemplateEngine, engine_callback=engine_callback
         )
 
         debug = is_debug() or is_develop()
 
         cors_config = CORSConfig()
-        exception_handlers: Dict[str, ExceptionHandler] = {}
+        exception_handlers: ExceptionHandlersMap = {}
         # exception_handlers[HTTPException] = http_exception_handler
         # exception_handlers[Exception] = custom_exception_handler
         # if is_debug() or is_develop():
         #     exception_handlers[HTTPException] = logging_exception_handler
         # exception_handlers[Exception] = http_exception_handler
 
-        def get_kiara_context(state: State) -> Kiara:
+        async def get_kiara_context(state: State) -> Kiara:
             if not hasattr(state, "kiara"):
                 state.kiara = self._kiara_api.context
             return cast(Kiara, state.kiara)
 
-        def get_kiara_api(state: State) -> KiaraAPI:
+        async def get_kiara_api(state: State) -> KiaraAPI:
             if not hasattr(state, "kiara_api"):
                 state.kiara_api = self._kiara_api
             return cast(KiaraAPI, state.kiara_api)
 
-        def get_template_registry(state: State) -> TemplateRegistry:
+        async def get_template_registry(state: State) -> TemplateRegistry:
             if not hasattr(state, "template_registry"):
                 state.template_registry = self._template_registry
             return cast(TemplateRegistry, self._template_registry)

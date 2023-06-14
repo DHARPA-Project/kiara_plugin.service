@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from typing import Any, Dict, Union
 
-from kiara.context import Kiara
 from pydantic import BaseModel, Extra, Field
 from starlite import Controller, MediaType, get, post
+
+from kiara.context import Kiara
 
 
 class OperationControllerHtml(Controller):
@@ -12,7 +13,7 @@ class OperationControllerHtml(Controller):
     @get(path="/{operation_name:str}", media_type=MediaType.HTML)
     def get_operation(self, operation_name: str, kiara: Kiara) -> str:
 
-        op_info = kiara.context_info.operations.type_infos.get(operation_name)
+        op_info = kiara.context_info.operations.type_infos.get(operation_name)  # type: ignore
         return op_info.create_html()
 
     @post("/search_operation", media_type=MediaType.HTML)

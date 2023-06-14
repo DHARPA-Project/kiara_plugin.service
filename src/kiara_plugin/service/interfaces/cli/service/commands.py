@@ -10,6 +10,7 @@ import asyncio
 import typing
 
 import rich_click as click
+
 from kiara.utils import is_develop
 
 if typing.TYPE_CHECKING:
@@ -51,4 +52,5 @@ def start(ctx, host: str):
 
     from hypercorn.asyncio import serve
 
-    asyncio.run(serve(kiara_service.app(), config))
+    app = kiara_service.app()
+    asyncio.run(serve(app, config))  # type: ignore

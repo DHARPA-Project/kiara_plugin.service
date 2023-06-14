@@ -8,10 +8,11 @@ other type of models -- that is attached to data, as well as *kiara* modules.
 Metadata models must be a sub-class of [kiara.metadata.MetadataModel][kiara.metadata.MetadataModel]. Other models usually
 sub-class a pydantic BaseModel or implement custom base classes.
 """
-from typing import Any
+from typing import Any, Union
+
+from pydantic import Field
 
 from kiara.models import KiaraModel
-from pydantic import Field
 
 
 class InternalErrorModel(KiaraModel):
@@ -20,7 +21,7 @@ class InternalErrorModel(KiaraModel):
     _kiara_model_id = "instance.internal_error"
 
     @classmethod
-    def from_exception(cls, exception: Exception, status: int = None):
+    def from_exception(cls, exception: Exception, status: Union[int, None] = None):
 
         if status is None:
             status = 500

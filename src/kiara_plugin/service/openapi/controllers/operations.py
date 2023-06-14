@@ -2,10 +2,6 @@
 import uuid
 from typing import Dict, List, Union
 
-from kiara.api import Kiara, KiaraAPI
-from kiara.interfaces.python_api import OperationInfo
-from kiara.models.module.jobs import JobStatus
-from kiara.registries.templates import TemplateRegistry
 from pydantic import BaseModel, Extra, Field
 from starlite import (
     Body,
@@ -16,6 +12,12 @@ from starlite import (
     get,
     post,
 )
+
+from kiara.api import Kiara, KiaraAPI
+from kiara.interfaces.python_api import OperationInfo
+from kiara.models.module.jobs import JobStatus
+from kiara.models.values.value import ValueMap
+from kiara.registries.templates import TemplateRegistry
 
 
 class OperationRequest(BaseModel):
@@ -54,15 +56,11 @@ class OperationControllerJson(Controller):
 
     @post(path="/")
     async def list_operations(
-        self, kiara_api: KiaraAPI, data: Union[OperationMatcher, None] = None
+        self, kiara_api: KiaraAPI, data: OperationMatcher
     ) -> Dict[str, OperationInfo]:
 
-        if data is None:
-            filters: List[str] = []
-            include_internal = False
-        else:
-            filters = data.filters
-            include_internal = data.include_internal
+        filters = data.filters
+        include_internal = data.include_internal
 
         operations = kiara_api.retrieve_operations_info(
             *filters, include_internal=include_internal
@@ -71,22 +69,19 @@ class OperationControllerJson(Controller):
 
     @post(path="/ids")
     async def list_operation_ids(
-        self, kiara_api: KiaraAPI, data: Union[OperationMatcher, None] = None
+        self, kiara_api: KiaraAPI, data: OperationMatcher = None
     ) -> List[str]:
-        if data is None:
-            filters: List[str] = []
-            include_internal = False
-        else:
-            filters = data.filters
-            include_internal = data.include_internal
+
+        filters = data.filters
+        include_internal = data.include_internal
 
         operation_ids = kiara_api.list_operation_ids(
-            *filters, include_internal=include_internal
+            filter=filters, include_internal=include_internal
         )
         return operation_ids
 
     @get(path="/{operation_id:str}")
-    def get_operation_info(
+    async def get_operation_info(
         self, kiara_api: KiaraAPI, operation_id: str
     ) -> OperationInfo:
 
@@ -98,7 +93,7 @@ class OperationControllerHtmx(Controller):
     path = "/"
 
     @get(path="/", media_type=MediaType.HTML)
-    def get_root_page(self, kiara: Kiara) -> Template:
+    async def get_root_page(self, kiara: Kiara) -> Template:
 
         print("OPERATION ROOT REQUEST")
         return Template(
@@ -106,7 +101,7 @@ class OperationControllerHtmx(Controller):
         )
 
     @post(path="/operation_info", media_type=MediaType.HTML)
-    def render_operation_info(
+    async def render_operation_info(
         self,
         kiara_api: KiaraAPI,
         data: OperationRequest = Body(media_type=RequestEncodingType.URL_ENCODED),
@@ -122,7 +117,7 @@ class OperationControllerHtmx(Controller):
         )
 
     @post(path="/inputs_form", media_type=MediaType.HTML)
-    def get_input_form(
+    async def get_input_form(
         self,
         kiara_api: KiaraAPI,
         template_registry: TemplateRegistry,
@@ -170,11 +165,11 @@ class OperationControllerHtmx(Controller):
         )
 
     @post(path="/queue_job", media_type=MediaType.HTML)
-    def queue_job(
+    async def queue_job(
         self,
         kiara_api: KiaraAPI,
         data: OperationRunRequest = Body(media_type=RequestEncodingType.URL_ENCODED),
-    ) -> Template:
+    ) -> Union[Template, str]:
 
         print(f"RUN REQUEST: {data.dict()}")
 
@@ -205,7 +200,7 @@ class OperationControllerHtmx(Controller):
             return f"<div>Can't submit job: {e}"
 
     @post(path="/monitor_job", media_type=MediaType.HTML)
-    def monitor_job(
+    async def monitor_job(
         self,
         kiara_api: KiaraAPI,
         data: MonitorJobRequest = Body(media_type=RequestEncodingType.URL_ENCODED),
@@ -223,7 +218,7 @@ class OperationControllerHtmx(Controller):
             )
         else:
             if job.status == JobStatus.SUCCESS:
-                results = kiara_api.get_job_result(job_id)
+                results: Union[Dict, ValueMap] = kiara_api.get_job_result(job_id)
                 error = None
             else:
                 results = {}

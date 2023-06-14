@@ -2,12 +2,6 @@
 import uuid
 from typing import Any, Dict, List, Mapping, Union
 
-from kiara.api import Kiara, KiaraAPI, Value, ValueSchema
-from kiara.exceptions import InvalidValuesException
-from kiara.interfaces.python_api import ValueInfo, ValuesInfo
-from kiara.models.values.matchers import ValueMatcher
-from kiara.models.values.value import SerializedData
-from kiara.registries.templates import TemplateRegistry
 from networkx import DiGraph
 from networkx.readwrite import json_graph
 from pydantic import BaseModel, Field
@@ -21,6 +15,12 @@ from starlite import (
     post,
 )
 
+from kiara.api import Kiara, KiaraAPI, Value, ValueSchema
+from kiara.exceptions import InvalidValuesException
+from kiara.interfaces.python_api import ValueInfo, ValuesInfo
+from kiara.models.values.matchers import ValueMatcher
+from kiara.models.values.value import SerializedData
+from kiara.registries.templates import TemplateRegistry
 from kiara_plugin.service.openapi import DataTypeModel, DataTypeRequest, RenderRequest
 
 
@@ -47,29 +47,23 @@ class ValueControllerJson(Controller):
 
     @post(path="/values")
     async def find_values(
-        self, kiara_api: KiaraAPI, data: Union[None, ValueMatcher] = None
+        self, kiara_api: KiaraAPI, data: ValueMatcher
     ) -> Dict[str, ValueInfo]:
 
-        if data is None:
-            matcher_data = {}
-        else:
-            matcher_data = data.dict()
+        matcher_data = data.dict()
 
-        result = kiara_api.list_values(**matcher_data)
-        return {str(k): v for k, v in result.items()}
+        result = kiara_api.retrieve_values_info(**matcher_data).item_infos
+        return result  # type: ignore
 
     @post(path="/values_info")
     async def get_values_info(
-        self, kiara_api: KiaraAPI, data: Union[None, ValueMatcher]
+        self, kiara_api: KiaraAPI, data: ValueMatcher
     ) -> Dict[str, ValueInfo]:
 
-        if data is None:
-            matcher_data = {}
-        else:
-            matcher_data = data.dict()
+        matcher_data = data.dict()
 
         result = kiara_api.retrieve_values_info(**matcher_data)
-        return result.item_infos
+        return result.item_infos  # type: ignore
 
     @get(path="/type/{data_type:str}/values")
     async def find_values_of_type(
@@ -79,7 +73,8 @@ class ValueControllerJson(Controller):
         matcher = ValueMatcher(data_types=[data_type])
 
         result = kiara_api.list_values(**matcher.dict())
-        return {str(k): v for k, v in result.items()}
+        return result  # type: ignore
+        # return {str(k): v for k, v in result.items()}
 
     @get(path="/type/{data_type:str}/values_info")
     async def find_values_info_of_type(
@@ -93,32 +88,26 @@ class ValueControllerJson(Controller):
 
     @post(path="/alias_names")
     async def list_alias_names(
-        self, kiara_api: KiaraAPI, data: Union[ValueMatcher, None] = None
+        self, kiara_api: KiaraAPI, data: ValueMatcher
     ) -> List[str]:
 
-        if data is None:
-            matcher_data = {}
-        else:
-            matcher_data = data.dict()
+        matcher_data = data.dict()
         result = kiara_api.list_alias_names(**matcher_data)
         return result
 
     @post(path="/aliases")
     async def list_aliases(
-        self, kiara_api: KiaraAPI, data: Union[ValueMatcher, None] = None
+        self, kiara_api: KiaraAPI, data: ValueMatcher
     ) -> Dict[str, Value]:
 
-        if data is None:
-            matcher_data = {}
-        else:
-            matcher_data = data.dict()
+        matcher_data = data.dict()
 
         result = kiara_api.list_aliases(**matcher_data)
-        return result
+        return result  # type: ignore
 
     @post(path="/aliases_info")
     async def list_aliases_info(
-        self, kiara_api: KiaraAPI, data: Union[ValueMatcher, None] = None
+        self, kiara_api: KiaraAPI, data: ValueMatcher
     ) -> Dict[str, ValueInfo]:
 
         if data is None:
@@ -127,7 +116,7 @@ class ValueControllerJson(Controller):
             matcher_data = data.dict()
 
         result = kiara_api.retrieve_aliases_info(**matcher_data)
-        return result.item_infos
+        return result.item_infos  # type: ignore
 
     @get(path="/type/{data_type:str}/aliases")
     async def find_value_aliases_of_type(
@@ -137,13 +126,12 @@ class ValueControllerJson(Controller):
         matcher = ValueMatcher(data_types=[data_type], has_alias=True)
 
         result = kiara_api.list_aliases(**matcher.dict())
-        return result
+        return result  # type: ignore
 
     @get(path="/type/{data_type:str}/alias_names")
     async def find_value_aliase_names_of_type(
         self, kiara_api: KiaraAPI, data_type: str
-    ) -> Dict[str, Value]:
-
+    ) -> List[str]:
         matcher = ValueMatcher(data_types=[data_type], has_alias=True)
 
         result = kiara_api.list_alias_names(**matcher.dict())
@@ -206,7 +194,7 @@ class ValueControllerHtmx(Controller):
     path = "/"
 
     @get(path="/", media_type=MediaType.HTML)
-    def get_root_page(self, kiara: Kiara) -> Template:
+    async def get_root_page(self, kiara: Kiara) -> Template:
 
         return Template(
             name="kiara_plugin.service/values/index.html", context={"kiara": kiara}
@@ -217,7 +205,7 @@ class ValueControllerHtmx(Controller):
     #     return Template(name="kiara_plugin.service/values/alias_select.html", context={"kiara": kiara})
 
     @post(path="/select", media_type=MediaType.HTML)
-    def get_value_select(
+    async def get_value_select(
         self,
         kiara_api: KiaraAPI,
         data: DataTypeRequest = Body(media_type=RequestEncodingType.URL_ENCODED),
@@ -241,7 +229,7 @@ class ValueControllerHtmx(Controller):
         )
 
     @post(path="/render", media_type=MediaType.HTML)
-    def render_value(
+    async def render_value(
         self,
         kiara_api: KiaraAPI,
         data: RenderRequest = Body(media_type=RequestEncodingType.URL_ENCODED),
@@ -289,7 +277,7 @@ class ValueControllerHtmx(Controller):
         )
 
     @post(path="/input_widget", media_type=MediaType.HTML)
-    def get_input_element_for_type(
+    async def get_input_element_for_type(
         self,
         kiara_api: KiaraAPI,
         template_registry: TemplateRegistry,

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from typing import Any, Dict, List, Mapping, Union
 
+from pydantic import BaseModel, Field
+from starlite import Controller, get, post
+
 from kiara.api import KiaraAPI, ValueSchema
 from kiara.models.module.operation import Operation
 from kiara.models.rendering import RenderValueResult
-from pydantic import BaseModel, Field
-from starlite import Controller, get, post
 
 
 class InputsValidationData(BaseModel):
@@ -57,7 +58,7 @@ class RenderControllerJson(Controller):
         return result
 
     @post(path="/value_info/{value:str}/{target_format:str}")
-    def render_operation_info(
+    async def render_operation_info(
         self,
         kiara_api: KiaraAPI,
         value: str,

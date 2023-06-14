@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from typing import Dict, List, Union
 
-from kiara.api import KiaraAPI
-from kiara.models.workflow import WorkflowInfo
 from pydantic import BaseModel, Field
 from starlite import Controller, get, post
+
+from kiara.api import KiaraAPI
+from kiara.models.workflow import WorkflowInfo
 
 
 class WorkflowMatcher(BaseModel):
@@ -28,8 +29,8 @@ class WorkflowControllerJson(Controller):
         # else:
         #     filters = data.filters
 
-        result = kiara_api.list_workflow_ids()
-        return result
+        result = kiara_api.retrieve_workflows_info().item_infos
+        return result  # type: ignore
 
     @post(path="/aliases")
     async def list_workflow_aliases(
