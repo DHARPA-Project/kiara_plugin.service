@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from typing import List
 
+from pydantic import BaseModel, Field
+from starlite import Controller, get
+
 from kiara.api import KiaraAPI
 from kiara.interfaces.python_api.models.info import PipelineStructureInfo
 from kiara.utils.pipelines import get_pipeline_config
-from pydantic import BaseModel, Field
-from starlite import Controller, get
 
 
 class PipelineMatcher(BaseModel):

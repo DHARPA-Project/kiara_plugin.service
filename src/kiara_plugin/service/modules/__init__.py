@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from kiara.api import KiaraModule, KiaraModuleConfig, ValueMap, ValueMapSchema
 from pydantic import Field
+
+from kiara.api import KiaraModule, KiaraModuleConfig, ValueMap, ValueMapSchema
 
 
 class ExampleModuleConfig(KiaraModuleConfig):
