@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Any, Mapping
 
-from kiara import KiaraAPI
+from kiara.api import KiaraAPI
 from kiara.models.module.jobs import ActiveJob
 from pydantic import BaseModel, Extra, Field
 from starlite import Controller, get, post

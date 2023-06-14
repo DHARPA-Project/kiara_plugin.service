@@ -7,13 +7,13 @@
 
 """Web-service related subcommands for the cli."""
 import asyncio
+import typing
 
 import rich_click as click
-from hypercorn.asyncio import serve
-from kiara.interfaces.python_api import KiaraAPI
 from kiara.utils import is_develop
 
-from kiara_plugin.service.openapi.service import KiaraOpenAPIService
+if typing.TYPE_CHECKING:
+    from kiara.api import KiaraAPI
 
 
 @click.group()
@@ -30,6 +30,8 @@ def service(ctx):
 def start(ctx, host: str):
     """Start a kiara (web) service."""
 
+    from kiara_plugin.service.openapi.service import KiaraOpenAPIService
+
     try:
         import uvloop
 
@@ -37,7 +39,7 @@ def start(ctx, host: str):
     except Exception:
         pass
 
-    kiara_api: KiaraAPI = ctx.obj["kiara_api"]
+    kiara_api: KiaraAPI = ctx.obj.kiara_api
     kiara_service = KiaraOpenAPIService(kiara_api=kiara_api)
     from hypercorn.config import Config
 
@@ -46,5 +48,7 @@ def start(ctx, host: str):
 
     if is_develop():
         config.use_reloader = True
+
+    from hypercorn.asyncio import serve
 
     asyncio.run(serve(kiara_service.app(), config))

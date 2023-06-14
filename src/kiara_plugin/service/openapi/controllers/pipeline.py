@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import List
 
-from kiara import KiaraAPI
+from kiara.api import KiaraAPI
 from kiara.interfaces.python_api.models.info import PipelineStructureInfo
 from kiara.utils.pipelines import get_pipeline_config
 from pydantic import BaseModel, Field

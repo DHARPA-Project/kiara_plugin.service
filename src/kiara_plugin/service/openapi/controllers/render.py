@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Any, Dict, List, Mapping, Union
 
-from kiara import KiaraAPI, ValueSchema
+from kiara.api import KiaraAPI, ValueSchema
 from kiara.models.module.operation import Operation
 from kiara.models.rendering import RenderValueResult
 from pydantic import BaseModel, Field

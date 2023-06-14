@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Dict, List, Union
 
-from kiara import KiaraAPI
+from kiara.api import KiaraAPI
 from kiara.models.workflow import WorkflowInfo
 from pydantic import BaseModel, Field
 from starlite import Controller, get, post

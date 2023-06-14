@@ -2,7 +2,7 @@
 import uuid
 from typing import Any, Dict, List, Mapping, Union
 
-from kiara import Kiara, KiaraAPI, Value, ValueSchema
+from kiara.api import Kiara, KiaraAPI, Value, ValueSchema
 from kiara.exceptions import InvalidValuesException
 from kiara.interfaces.python_api import ValueInfo, ValuesInfo
 from kiara.models.values.matchers import ValueMatcher

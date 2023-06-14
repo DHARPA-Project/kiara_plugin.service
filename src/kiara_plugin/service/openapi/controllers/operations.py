@@ -2,7 +2,7 @@
 import uuid
 from typing import Dict, List, Union
 
-from kiara import Kiara, KiaraAPI
+from kiara.api import Kiara, KiaraAPI
 from kiara.interfaces.python_api import OperationInfo
 from kiara.models.module.jobs import JobStatus
 from kiara.registries.templates import TemplateRegistry
