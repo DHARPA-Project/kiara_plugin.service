@@ -184,12 +184,8 @@ class KiaraOpenAPIService:
         # info_router_html = Router(
         #     path="/html/info", route_handlers=[OperationControllerHtml]
         # )
-        Router(
-            path="/html/values", route_handlers=[ValueControllerHtmx]
-        )
-        Router(
-            path="/html/operations", route_handlers=[OperationControllerHtmx]
-        )
+        Router(path="/html/values", route_handlers=[ValueControllerHtmx])
+        Router(path="/html/operations", route_handlers=[OperationControllerHtmx])
 
         route_handlers: List[ControllerRouterHandler] = []
         route_handlers.append(value_router)

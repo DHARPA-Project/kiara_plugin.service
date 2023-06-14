@@ -69,8 +69,9 @@ class OperationControllerJson(Controller):
 
     @post(path="/ids")
     async def list_operation_ids(
-        self, kiara_api: KiaraAPI, data: OperationMatcher = None
+        self, kiara_api: KiaraAPI, data: OperationMatcher
     ) -> List[str]:
+        """List the ids of all available operations."""
 
         filters = data.filters
         include_internal = data.include_internal
