@@ -703,6 +703,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../controllers/modules/" class="md-nav__link">
+        modules
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../controllers/operations/" class="md-nav__link">
         operations
       </a>
@@ -1329,8 +1343,9 @@
 
 
         <details class="quote">
-          <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.3/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 64</span>
+          <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 63</span>
+<span class="normal"> 64</span>
 <span class="normal"> 65</span>
 <span class="normal"> 66</span>
 <span class="normal"> 67</span>
@@ -1376,8 +1391,7 @@
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">KiaraModelResponse</span><span class="p">(</span><span class="n">Response</span><span class="p">):</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">KiaraModelResponse</span><span class="p">(</span><span class="n">Response</span><span class="p">):</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">serializer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">KiaraModel</span><span class="p">):</span>
@@ -1457,12 +1471,12 @@
   <div class="doc doc-contents ">
 
       <details class="quote">
-        <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.3/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+        <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
+<span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">serializer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">KiaraModel</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
@@ -1538,8 +1552,9 @@
   </table>
 
       <details class="quote">
-        <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.3/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 71</span>
+        <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 70</span>
+<span class="normal"> 71</span>
 <span class="normal"> 72</span>
 <span class="normal"> 73</span>
 <span class="normal"> 74</span>
@@ -1578,8 +1593,7 @@
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Handles the rendering of content T into a bytes string.</span>
 <span class="sd">    Args:</span>
@@ -1650,8 +1664,9 @@
 
 
         <details class="quote">
-          <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.3/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
+          <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
+<span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
@@ -1768,7 +1783,8 @@
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
-<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">KiaraOpenAPIService</span><span class="p">:</span>
+<span class="normal">275</span>
+<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">KiaraOpenAPIService</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span> <span class="o">=</span> <span class="n">kiara_api</span>
@@ -1782,6 +1798,7 @@
         <span class="kn">from</span> <span class="nn">starlite</span> <span class="kn">import</span> <span class="n">Router</span>
 
         <span class="n">value_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/data&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">ValueControllerJson</span><span class="p">])</span>
+        <span class="n">module_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/modules&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">ModuleControllerJson</span><span class="p">])</span>
         <span class="n">operation_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span>
             <span class="n">path</span><span class="o">=</span><span class="s2">&quot;/operations&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">OperationControllerJson</span><span class="p">]</span>
         <span class="p">)</span>
@@ -1797,11 +1814,12 @@
         <span class="c1"># info_router_html = Router(</span>
         <span class="c1">#     path=&quot;/html/info&quot;, route_handlers=[OperationControllerHtml]</span>
         <span class="c1"># )</span>
-        <span class="n">Router</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/html/values&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">ValueControllerHtmx</span><span class="p">])</span>
-        <span class="n">Router</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/html/operations&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">OperationControllerHtmx</span><span class="p">])</span>
+        <span class="c1"># Router(path=&quot;/html/values&quot;, route_handlers=[ValueControllerHtmx])</span>
+        <span class="c1"># Router(path=&quot;/html/operations&quot;, route_handlers=[OperationControllerHtmx])</span>
 
         <span class="n">route_handlers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ControllerRouterHandler</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value_router</span><span class="p">)</span>
+        <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module_router</span><span class="p">)</span>
         <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operation_router</span><span class="p">)</span>
         <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job_router</span><span class="p">)</span>
         <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">render_router</span><span class="p">)</span>
@@ -1914,8 +1932,9 @@
   <div class="doc doc-contents ">
 
       <details class="quote">
-        <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.3/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
+        <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
+<span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
@@ -2025,13 +2044,15 @@
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
-<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">app</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Starlite</span><span class="p">:</span>
+<span class="normal">275</span>
+<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">app</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Starlite</span><span class="p">:</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_app</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_app</span>
 
     <span class="kn">from</span> <span class="nn">starlite</span> <span class="kn">import</span> <span class="n">Router</span>
 
     <span class="n">value_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/data&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">ValueControllerJson</span><span class="p">])</span>
+    <span class="n">module_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/modules&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">ModuleControllerJson</span><span class="p">])</span>
     <span class="n">operation_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span>
         <span class="n">path</span><span class="o">=</span><span class="s2">&quot;/operations&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">OperationControllerJson</span><span class="p">]</span>
     <span class="p">)</span>
@@ -2047,11 +2068,12 @@
     <span class="c1"># info_router_html = Router(</span>
     <span class="c1">#     path=&quot;/html/info&quot;, route_handlers=[OperationControllerHtml]</span>
     <span class="c1"># )</span>
-    <span class="n">Router</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/html/values&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">ValueControllerHtmx</span><span class="p">])</span>
-    <span class="n">Router</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/html/operations&quot;</span><span class="p">,</span> <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">OperationControllerHtmx</span><span class="p">])</span>
+    <span class="c1"># Router(path=&quot;/html/values&quot;, route_handlers=[ValueControllerHtmx])</span>
+    <span class="c1"># Router(path=&quot;/html/operations&quot;, route_handlers=[OperationControllerHtmx])</span>
 
     <span class="n">route_handlers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ControllerRouterHandler</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value_router</span><span class="p">)</span>
+    <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module_router</span><span class="p">)</span>
     <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operation_router</span><span class="p">)</span>
     <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job_router</span><span class="p">)</span>
     <span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">render_router</span><span class="p">)</span>
@@ -2178,8 +2200,9 @@ callback.</p>
 <p>Response</p>
 
       <details class="quote">
-        <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.3/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+        <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/service.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
+<span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
@@ -2195,8 +2218,7 @@ callback.</p>
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">logging_exception_handler</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">logging_exception_handler</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs exception and returns appropriate response.</span>
 
