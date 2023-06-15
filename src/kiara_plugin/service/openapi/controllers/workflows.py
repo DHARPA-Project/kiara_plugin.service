@@ -2,10 +2,11 @@
 from typing import Dict, List, Union
 
 from pydantic import BaseModel, Field
-from starlite import Controller, get, post
+from starlite import Controller
 
 from kiara.api import KiaraAPI
 from kiara.models.workflow import WorkflowInfo
+from kiara_plugin.service.openapi.controllers import get, post
 
 
 class WorkflowMatcher(BaseModel):
@@ -19,7 +20,7 @@ class WorkflowMatcher(BaseModel):
 class WorkflowControllerJson(Controller):
     path = "/"
 
-    @post(path="/ids")
+    @post(path="/ids", api_func=KiaraAPI.retrieve_workflows_info)
     async def list_workflows(
         self, kiara_api: KiaraAPI, data: Union[WorkflowMatcher, None] = None
     ) -> Dict[str, WorkflowInfo]:
@@ -32,7 +33,7 @@ class WorkflowControllerJson(Controller):
         result = kiara_api.retrieve_workflows_info().item_infos
         return result  # type: ignore
 
-    @post(path="/aliases")
+    @post(path="/aliases", api_func=KiaraAPI.list_workflow_alias_names)
     async def list_workflow_aliases(
         self, kiara_api: KiaraAPI, data: Union[WorkflowMatcher, None] = None
     ) -> List[str]:
@@ -45,7 +46,9 @@ class WorkflowControllerJson(Controller):
         result = kiara_api.list_workflow_alias_names()
         return result
 
-    @get(path="/workflow_info/{workflow: str}")
+    @get(
+        path="/workflow_info/{workflow: str}", api_func=KiaraAPI.retrieve_workflow_info
+    )
     async def get_workflow_info(
         self, kiara_api: KiaraAPI, workflow: str
     ) -> WorkflowInfo:

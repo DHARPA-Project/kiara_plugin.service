@@ -42,14 +42,13 @@ from kiara.registries.templates import TemplateRegistry
 from kiara.utils import is_debug, is_develop
 from kiara_plugin.service.defaults import KIARA_SERVICE_RESOURCES_FOLDER
 from kiara_plugin.service.openapi.controllers.jobs import JobControllerJson
+from kiara_plugin.service.openapi.controllers.modules import ModuleControllerJson
 from kiara_plugin.service.openapi.controllers.operations import (
-    OperationControllerHtmx,
     OperationControllerJson,
 )
 from kiara_plugin.service.openapi.controllers.pipeline import PipelineControllerJson
 from kiara_plugin.service.openapi.controllers.render import RenderControllerJson
 from kiara_plugin.service.openapi.controllers.values import (
-    ValueControllerHtmx,
     ValueControllerJson,
 )
 from kiara_plugin.service.openapi.controllers.workflows import WorkflowControllerJson
@@ -169,6 +168,7 @@ class KiaraOpenAPIService:
         from starlite import Router
 
         value_router = Router(path="/data", route_handlers=[ValueControllerJson])
+        module_router = Router(path="/modules", route_handlers=[ModuleControllerJson])
         operation_router = Router(
             path="/operations", route_handlers=[OperationControllerJson]
         )
@@ -184,11 +184,12 @@ class KiaraOpenAPIService:
         # info_router_html = Router(
         #     path="/html/info", route_handlers=[OperationControllerHtml]
         # )
-        Router(path="/html/values", route_handlers=[ValueControllerHtmx])
-        Router(path="/html/operations", route_handlers=[OperationControllerHtmx])
+        # Router(path="/html/values", route_handlers=[ValueControllerHtmx])
+        # Router(path="/html/operations", route_handlers=[OperationControllerHtmx])
 
         route_handlers: List[ControllerRouterHandler] = []
         route_handlers.append(value_router)
+        route_handlers.append(module_router)
         route_handlers.append(operation_router)
         route_handlers.append(job_router)
         route_handlers.append(render_router)

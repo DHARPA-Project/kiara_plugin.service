@@ -2,11 +2,12 @@
 from typing import List
 
 from pydantic import BaseModel, Field
-from starlite import Controller, get
+from starlite import Controller
 
 from kiara.api import KiaraAPI
 from kiara.interfaces.python_api.models.info import PipelineStructureInfo
 from kiara.utils.pipelines import get_pipeline_config
+from kiara_plugin.service.openapi.controllers import get
 
 
 class PipelineMatcher(BaseModel):
@@ -20,7 +21,7 @@ class PipelineMatcher(BaseModel):
 class PipelineControllerJson(Controller):
     path = "/"
 
-    @get(path="/structure/{pipeline:str}")
+    @get(path="/structure/{pipeline:str}", api_func=get_pipeline_config)
     async def get_pipeline_structure(
         self, kiara_api: KiaraAPI, pipeline: str
     ) -> PipelineStructureInfo:

@@ -2,10 +2,11 @@
 from typing import Any, Mapping
 
 from pydantic import BaseModel, Extra, Field
-from starlite import Controller, get, post
+from starlite import Controller
 
 from kiara.api import KiaraAPI
 from kiara.models.module.jobs import ActiveJob
+from kiara_plugin.service.openapi.controllers import get, post
 
 
 class RunJobRequest(BaseModel):
@@ -27,7 +28,7 @@ class JobInfoRequest(BaseModel):
 class JobControllerJson(Controller):
     path = "/"
 
-    @post(path="/queue_job")
+    @post(path="/queue_job", api_func=KiaraAPI.queue_job)
     async def queue_job(self, kiara_api: KiaraAPI, data: RunJobRequest) -> ActiveJob:
 
         print(f"JOB RUN REQUEST: {data.dict()}")
@@ -51,7 +52,7 @@ class JobControllerJson(Controller):
             traceback.print_exc()
             raise e
 
-    @get(path="/monitor_job/{job_id:str}")
+    @get(path="/monitor_job/{job_id:str}", api_func=KiaraAPI.get_job)
     async def monitor_job(self, kiara_api: KiaraAPI, job_id: str) -> ActiveJob:
 
         print(f"MONITOR REQUEST: {job_id}")

@@ -2,11 +2,12 @@
 from typing import Any, Dict, List, Mapping, Union
 
 from pydantic import BaseModel, Field
-from starlite import Controller, get, post
+from starlite import Controller
 
 from kiara.api import KiaraAPI, ValueSchema
 from kiara.models.module.operation import Operation
 from kiara.models.rendering import RenderValueResult
+from kiara_plugin.service.openapi.controllers import get, post
 
 
 class InputsValidationData(BaseModel):
@@ -18,7 +19,10 @@ class InputsValidationData(BaseModel):
 class RenderControllerJson(Controller):
     path = "/"
 
-    @get(path="/create_render_manifest/{data_type:str}")
+    @get(
+        path="/create_render_manifest/{data_type:str}",
+        api_func=KiaraAPI.assemble_render_pipeline,
+    )
     async def create_render_manifest(
         self, kiara_api: KiaraAPI, data_type: str
     ) -> Operation:
@@ -30,7 +34,7 @@ class RenderControllerJson(Controller):
         )
         return operation
 
-    @post(path="/value/{value:str}/{target_format:str}")
+    @post(path="/value/{value:str}/{target_format:str}", api_func=KiaraAPI.render_value)
     async def render_data(
         self,
         kiara_api: KiaraAPI,
@@ -57,7 +61,10 @@ class RenderControllerJson(Controller):
         )
         return result
 
-    @post(path="/value_info/{value:str}/{target_format:str}")
+    @post(
+        path="/value_info/{value:str}/{target_format:str}",
+        summary="Render value info as HTML",
+    )
     async def render_operation_info(
         self,
         kiara_api: KiaraAPI,
