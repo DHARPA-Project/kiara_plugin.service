@@ -6,12 +6,9 @@
 #  Mozilla Public License, version 2.0 (see LICENSE or https://www.mozilla.org/en-US/MPL/2.0/)
 
 """Web-service related subcommands for the cli."""
-import asyncio
 import typing
 
 import rich_click as click
-
-from kiara.utils import is_develop
 
 if typing.TYPE_CHECKING:
     from kiara.api import KiaraAPI
@@ -25,10 +22,11 @@ def service(ctx):
 
 @service.command()
 @click.option(
-    "--host", help="The host to bind to.", required=False, default="localhost:8080"
+    "--host", help="The host to bind to.", required=False, default="localhost"
 )
+@click.option("--port", "-p", help="The port to bind to.", required=False, default=8080)
 @click.pass_context
-def start(ctx, host: str):
+def start(ctx, host: str, port: int):
     """Start a kiara (web) service."""
 
     from kiara_plugin.service.openapi.service import KiaraOpenAPIService
@@ -42,15 +40,9 @@ def start(ctx, host: str):
 
     kiara_api: KiaraAPI = ctx.obj.kiara_api
     kiara_service = KiaraOpenAPIService(kiara_api=kiara_api)
-    from hypercorn.config import Config
-
-    config = Config()
-    config.bind = [host]
-
-    if is_develop():
-        config.use_reloader = True
-
-    from hypercorn.asyncio import serve
+    import uvicorn
 
     app = kiara_service.app()
-    asyncio.run(serve(app, config))  # type: ignore
+    config = uvicorn.Config(app=app, host=host, port=port, log_level="info")
+    server = uvicorn.Server(config=config)
+    server.run()

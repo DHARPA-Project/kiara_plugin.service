@@ -32,7 +32,8 @@ classifiers = [
 dependencies = [
     "kiara>=0.4.44",
     "kiara_plugin.core_types>=0.4.20",
-    "starlite==1.39.0"
+    "uvicorn>=0.22.0",
+    "starlite==1.39.0",
 ]
 dynamic = ["version"]
 
