@@ -32,3 +32,10 @@ class PipelineControllerJson(Controller):
             kiara=kiara_api.context, instance=pipeline_config.structure
         )
         return info
+
+    @get(path="/list", api_func=get_pipeline_config)
+    async def list_pipelines(self, kiara_api: KiaraAPI) -> List[str]:
+
+        pipelines = kiara_api.list_operations(operation_types="pipeline")
+        print(pipelines)
+        return list(pipelines.keys())
