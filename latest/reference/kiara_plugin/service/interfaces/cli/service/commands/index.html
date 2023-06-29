@@ -1025,10 +1025,10 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/interfaces/cli/service/commands.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@click</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@click</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">pass_context</span>
 <span class="k">def</span> <span class="nf">service</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;(Web-)service-related sub-commands.&quot;&quot;&quot;</span>
@@ -1043,7 +1043,7 @@
 
 
 <h3 id="kiara_plugin.service.interfaces.cli.service.commands.start" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">start</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">start</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span></code>
 
 <a href="#kiara_plugin.service.interfaces.cli.service.commands.start" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -1054,7 +1054,10 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/interfaces/cli/service/commands.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">26</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
 <span class="normal">29</span>
@@ -1076,20 +1079,13 @@
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@service</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@service</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--host&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The host to bind to.&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;localhost:8080&quot;</span>
+    <span class="s2">&quot;--host&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The host to bind to.&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span>
 <span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--port&quot;</span><span class="p">,</span> <span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The port to bind to.&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">pass_context</span>
-<span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Start a kiara (web) service.&quot;&quot;&quot;</span>
 
     <span class="kn">from</span> <span class="nn">kiara_plugin.service.openapi.service</span> <span class="kn">import</span> <span class="n">KiaraOpenAPIService</span>
@@ -1103,18 +1099,12 @@
 
     <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">kiara_api</span>
     <span class="n">kiara_service</span> <span class="o">=</span> <span class="n">KiaraOpenAPIService</span><span class="p">(</span><span class="n">kiara_api</span><span class="o">=</span><span class="n">kiara_api</span><span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">hypercorn.config</span> <span class="kn">import</span> <span class="n">Config</span>
-
-    <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">bind</span> <span class="o">=</span> <span class="p">[</span><span class="n">host</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">is_develop</span><span class="p">():</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">use_reloader</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="kn">from</span> <span class="nn">hypercorn.asyncio</span> <span class="kn">import</span> <span class="n">serve</span>
+    <span class="kn">import</span> <span class="nn">uvicorn</span>
 
     <span class="n">app</span> <span class="o">=</span> <span class="n">kiara_service</span><span class="o">.</span><span class="n">app</span><span class="p">()</span>
-    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">serve</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">uvicorn</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">)</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">uvicorn</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
