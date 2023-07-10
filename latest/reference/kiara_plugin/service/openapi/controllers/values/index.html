@@ -17,7 +17,7 @@
         <link rel="next" href="../workflows/">
       
       <link rel="icon" href="../../../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
@@ -1419,8 +1419,8 @@
 <code class="highlight language-python"><span class="n">inputs</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The provided inputs.&#39;</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#kiara_plugin.service.openapi.controllers.values.InputsValidationData.inputs" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1439,8 +1439,8 @@
 <code class="highlight language-python"><span class="n">inputs_schema</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ValueSchema</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The inputs schemas.&#39;</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#kiara_plugin.service.openapi.controllers.values.InputsValidationData.inputs_schema" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1726,7 +1726,7 @@
 
     <span class="nd">@post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/aliases_info&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_aliases_info</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">list_aliases_info</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ValueMatcher</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValueMatcher</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ValueInfo</span><span class="p">]:</span>
 
         <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1834,8 +1834,8 @@
 <code class="highlight language-python"><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#kiara_plugin.service.openapi.controllers.values.ValueControllerJson.path" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -2128,7 +2128,7 @@
 
 
 <h5 id="kiara_plugin.service.openapi.controllers.values.ValueControllerJson.list_aliases_info" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">list_aliases_info</span><span class="p">(</span><span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ValueMatcher</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ValueInfo</span><span class="p">]</span></code>
+<code class="highlight language-python"><span class="n">list_aliases_info</span><span class="p">(</span><span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValueMatcher</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ValueInfo</span><span class="p">]</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
@@ -2154,7 +2154,7 @@
 <span class="normal">114</span>
 <span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/aliases_info&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_aliases_info</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">list_aliases_info</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ValueMatcher</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ValueMatcher</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ValueInfo</span><span class="p">]:</span>
 
     <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -2524,10 +2524,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../../../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../../../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../../../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../../../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../../assets/javascripts/bundle.b425cdc4.min.js"></script>
+      <script src="../../../../../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   </body>

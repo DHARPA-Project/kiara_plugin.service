@@ -17,7 +17,7 @@
         <link rel="next" href="../render/">
       
       <link rel="icon" href="../../../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
@@ -1227,8 +1227,8 @@
 <code class="highlight language-python"><span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The (optional) filter strings, a pipeline must match all of them to be included in the result.&#39;</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#kiara_plugin.service.openapi.controllers.pipeline.PipelineMatcher.filters" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1288,7 +1288,8 @@
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
-<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PipelineControllerJson</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PipelineControllerJson</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
     <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
 
     <span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/structure/{pipeline:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">get_pipeline_config</span><span class="p">)</span>
@@ -1298,6 +1299,7 @@
 
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PIPELINE: </span><span class="si">{</span><span class="n">pipeline</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">pipeline_config</span> <span class="o">=</span> <span class="n">get_pipeline_config</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="n">pipeline</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pipeline_config</span><span class="p">)</span>
         <span class="n">info</span> <span class="o">=</span> <span class="n">PipelineStructureInfo</span><span class="o">.</span><span class="n">create_from_instance</span><span class="p">(</span>
             <span class="n">kiara</span><span class="o">=</span><span class="n">kiara_api</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">pipeline_config</span><span class="o">.</span><span class="n">structure</span>
         <span class="p">)</span>
@@ -1330,8 +1332,8 @@
 <code class="highlight language-python"><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#kiara_plugin.service.openapi.controllers.pipeline.PipelineControllerJson.path" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1372,13 +1374,15 @@
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
-<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/structure/{pipeline:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">get_pipeline_config</span><span class="p">)</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/structure/{pipeline:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">get_pipeline_config</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">get_pipeline_structure</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PipelineStructureInfo</span><span class="p">:</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PIPELINE: </span><span class="si">{</span><span class="n">pipeline</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">pipeline_config</span> <span class="o">=</span> <span class="n">get_pipeline_config</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="n">pipeline</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pipeline_config</span><span class="p">)</span>
     <span class="n">info</span> <span class="o">=</span> <span class="n">PipelineStructureInfo</span><span class="o">.</span><span class="n">create_from_instance</span><span class="p">(</span>
         <span class="n">kiara</span><span class="o">=</span><span class="n">kiara_api</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">pipeline_config</span><span class="o">.</span><span class="n">structure</span>
     <span class="p">)</span>
@@ -1407,12 +1411,12 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/pipeline.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
-<span class="normal">37</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
-<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/list&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">get_pipeline_config</span><span class="p">)</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/list&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">get_pipeline_config</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">list_pipelines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 
     <span class="n">pipelines</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">list_operations</span><span class="p">(</span><span class="n">operation_types</span><span class="o">=</span><span class="s2">&quot;pipeline&quot;</span><span class="p">)</span>
@@ -1477,10 +1481,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../../../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../../../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../../../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../../../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../../assets/javascripts/bundle.b425cdc4.min.js"></script>
+      <script src="../../../../../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   </body>

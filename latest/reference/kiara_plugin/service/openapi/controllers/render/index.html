@@ -17,7 +17,7 @@
         <link rel="next" href="../values/">
       
       <link rel="icon" href="../../../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
@@ -1251,8 +1251,8 @@
 <code class="highlight language-python"><span class="n">inputs</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The provided inputs.&#39;</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#kiara_plugin.service.openapi.controllers.render.InputsValidationData.inputs" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1271,8 +1271,8 @@
 <code class="highlight language-python"><span class="n">inputs_schema</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ValueSchema</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The inputs schemas.&#39;</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#kiara_plugin.service.openapi.controllers.render.InputsValidationData.inputs_schema" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1373,7 +1373,16 @@
 <span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
-<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RenderControllerJson</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RenderControllerJson</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
     <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
 
     <span class="nd">@get</span><span class="p">(</span>
@@ -1410,12 +1419,21 @@
 <span class="sd">            the render result</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># filters = [&quot;select_columns&quot;, &quot;drop_columns&quot;]</span>
-        <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">render_value</span><span class="p">(</span>
-            <span class="n">value</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">target_format</span><span class="o">=</span><span class="n">target_format</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">render_config</span><span class="o">=</span><span class="n">data</span>
-        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># filters = [&quot;select_columns&quot;, &quot;drop_columns&quot;]</span>
+            <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">render_value</span><span class="p">(</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">v</span><span class="p">,</span>
+                <span class="n">target_format</span><span class="o">=</span><span class="n">target_format</span><span class="p">,</span>
+                <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span>
+                <span class="n">render_config</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">traceback</span>
+
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">e</span>
         <span class="k">return</span> <span class="n">result</span>
 
     <span class="nd">@post</span><span class="p">(</span>
@@ -1456,8 +1474,8 @@
 <code class="highlight language-python"><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#kiara_plugin.service.openapi.controllers.render.RenderControllerJson.path" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -1646,7 +1664,16 @@
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
-<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/value/{value:str}/{target_format:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">render_value</span><span class="p">)</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/value/{value:str}/{target_format:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">render_value</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">render_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span>
@@ -1665,12 +1692,21 @@
 <span class="sd">        the render result</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># filters = [&quot;select_columns&quot;, &quot;drop_columns&quot;]</span>
-    <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">render_value</span><span class="p">(</span>
-        <span class="n">value</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">target_format</span><span class="o">=</span><span class="n">target_format</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">render_config</span><span class="o">=</span><span class="n">data</span>
-    <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># filters = [&quot;select_columns&quot;, &quot;drop_columns&quot;]</span>
+        <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">render_value</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">v</span><span class="p">,</span>
+            <span class="n">target_format</span><span class="o">=</span><span class="n">target_format</span><span class="p">,</span>
+            <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span>
+            <span class="n">render_config</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">traceback</span>
+
+        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="n">e</span>
     <span class="k">return</span> <span class="n">result</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -1696,23 +1732,23 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/render.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
-<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post</span><span class="p">(</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post</span><span class="p">(</span>
     <span class="n">path</span><span class="o">=</span><span class="s2">&quot;/value_info/{value:str}/{target_format:str}&quot;</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Render value info as HTML&quot;</span><span class="p">,</span>
 <span class="p">)</span>
@@ -1788,10 +1824,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../../../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../../../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../../../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../../../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../../assets/javascripts/bundle.b425cdc4.min.js"></script>
+      <script src="../../../../../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   </body>
