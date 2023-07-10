@@ -28,6 +28,7 @@ class PipelineControllerJson(Controller):
 
         print(f"PIPELINE: {pipeline}")
         pipeline_config = get_pipeline_config(pipeline=pipeline)
+        print(pipeline_config)
         info = PipelineStructureInfo.create_from_instance(
             kiara=kiara_api.context, instance=pipeline_config.structure
         )

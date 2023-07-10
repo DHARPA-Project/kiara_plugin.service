@@ -103,7 +103,7 @@ class ValueControllerJson(Controller):
 
     @post(path="/aliases_info", api_func=KiaraAPI.retrieve_aliases_info)
     async def list_aliases_info(
-        self, kiara_api: KiaraAPI, data: ValueMatcher
+        self, kiara_api: KiaraAPI, data: Union[ValueMatcher, None]
     ) -> Dict[str, ValueInfo]:
 
         if data is None:

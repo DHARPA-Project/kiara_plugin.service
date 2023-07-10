@@ -53,12 +53,21 @@ class RenderControllerJson(Controller):
             the render result
         """
 
-        # filters = ["select_columns", "drop_columns"]
-        filters: List[str] = []
-        v = kiara_api.get_value(value)
-        result = kiara_api.render_value(
-            value=v, target_format=target_format, filters=filters, render_config=data
-        )
+        try:
+            # filters = ["select_columns", "drop_columns"]
+            filters: List[str] = []
+            v = kiara_api.get_value(value)
+            result = kiara_api.render_value(
+                value=v,
+                target_format=target_format,
+                filters=filters,
+                render_config=data,
+            )
+        except Exception as e:
+            import traceback
+
+            traceback.print_exc()
+            raise e
         return result
 
     @post(
