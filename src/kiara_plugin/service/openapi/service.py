@@ -41,6 +41,10 @@ from kiara.models import KiaraModel
 from kiara.registries.templates import TemplateRegistry
 from kiara.utils import is_debug, is_develop
 from kiara_plugin.service.defaults import KIARA_SERVICE_RESOURCES_FOLDER
+from kiara_plugin.service.openapi.controllers.context_info import (
+    DataTypeControllerJson,
+    KiaraContextControllerJson,
+)
 from kiara_plugin.service.openapi.controllers.jobs import JobControllerJson
 from kiara_plugin.service.openapi.controllers.modules import ModuleControllerJson
 from kiara_plugin.service.openapi.controllers.operations import (
@@ -168,17 +172,23 @@ class KiaraOpenAPIService:
         from starlite import Router
 
         value_router = Router(path="/data", route_handlers=[ValueControllerJson])
-        module_router = Router(path="/modules", route_handlers=[ModuleControllerJson])
         operation_router = Router(
             path="/operations", route_handlers=[OperationControllerJson]
         )
         job_router = Router(path="/jobs", route_handlers=[JobControllerJson])
+        module_router = Router(path="/modules", route_handlers=[ModuleControllerJson])
+        data_type_router = Router(
+            path="/data-types", route_handlers=[DataTypeControllerJson]
+        )
         render_router = Router(path="/render", route_handlers=[RenderControllerJson])
         workflow_router = Router(
             path="/workflows", route_handlers=[WorkflowControllerJson]
         )
         pipeline_router = Router(
             path="/pipelines", route_handlers=[PipelineControllerJson]
+        )
+        context_router = Router(
+            path="/context", route_handlers=[KiaraContextControllerJson]
         )
 
         # info_router_html = Router(
@@ -190,11 +200,13 @@ class KiaraOpenAPIService:
         route_handlers: List[ControllerRouterHandler] = []
         route_handlers.append(value_router)
         route_handlers.append(module_router)
+        route_handlers.append(data_type_router)
         route_handlers.append(operation_router)
         route_handlers.append(job_router)
         route_handlers.append(render_router)
         route_handlers.append(workflow_router)
         route_handlers.append(pipeline_router)
+        route_handlers.append(context_router)
 
         # route_handlers.append(value_router_htmx)
         # route_handlers.append(operation_router_htmx)
