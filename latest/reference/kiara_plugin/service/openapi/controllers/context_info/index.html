@@ -1485,7 +1485,7 @@
         <span class="n">python_package</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">python_package</span>
 
         <span class="n">data_types</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">retrieve_data_types_info</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">filters</span><span class="p">,</span> <span class="n">python_package</span><span class="o">=</span><span class="n">python_package</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">python_package</span><span class="o">=</span><span class="n">python_package</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">data_types</span><span class="o">.</span><span class="n">item_infos</span>  <span class="c1"># type: ignore</span>
 
@@ -1576,7 +1576,7 @@
     <span class="n">python_package</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">python_package</span>
 
     <span class="n">data_types</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">retrieve_data_types_info</span><span class="p">(</span>
-        <span class="o">*</span><span class="n">filters</span><span class="p">,</span> <span class="n">python_package</span><span class="o">=</span><span class="n">python_package</span>
+        <span class="nb">filter</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">python_package</span><span class="o">=</span><span class="n">python_package</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">data_types</span><span class="o">.</span><span class="n">item_infos</span>  <span class="c1"># type: ignore</span>
 </code></pre></div></td></tr></table></div>
