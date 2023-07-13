@@ -39,7 +39,7 @@ class ModuleControllerJson(Controller):
         python_package = data.python_package
 
         module_types = kiara_api.retrieve_module_types_info(
-            *filters, python_package=python_package
+            filter=filters, python_package=python_package
         )
         return module_types.item_infos  # type: ignore
 

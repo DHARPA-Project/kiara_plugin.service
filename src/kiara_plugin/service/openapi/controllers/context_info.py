@@ -40,7 +40,7 @@ class DataTypeControllerJson(Controller):
         python_package = data.python_package
 
         data_types = kiara_api.retrieve_data_types_info(
-            *filters, python_package=python_package
+            filter=filters, python_package=python_package
         )
         return data_types.item_infos  # type: ignore
 
