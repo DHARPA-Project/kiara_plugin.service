@@ -31,7 +31,7 @@ class DataTypeMatcher(BaseModel):
 class DataTypeControllerJson(Controller):
     path = "/"
 
-    @post(path="/", api_func=KiaraAPI.retrieve_module_types_info)
+    @post(path="/", api_func=KiaraAPI.retrieve_data_types_info)
     async def list_data_types(
         self, kiara_api: KiaraAPI, data: DataTypeMatcher
     ) -> Dict[str, DataTypeInfo]:
@@ -51,13 +51,13 @@ class DataTypeControllerJson(Controller):
         module_names = kiara_api.list_module_type_names()
         return module_names
 
-    @get(path="/{module_type_name:str}", api_func=KiaraAPI.retrieve_module_type_info)
+    @get(path="/{module_type_name:str}", api_func=KiaraAPI.retrieve_data_type_info)
     async def get_module_type_info(
-        self, kiara_api: KiaraAPI, module_type_name: str
+        self, kiara_api: KiaraAPI, data_type_name: str
     ) -> ModuleTypeInfo:
 
-        module = kiara_api.retrieve_module_type_info(module_type=module_type_name)
-        return module
+        data_type = kiara_api.retrieve_data_type_info(data_type_name=data_type_name)
+        return data_type
 
 
 class KiaraContextControllerJson(Controller):
