@@ -44,6 +44,14 @@ class OperationMatcher(BaseModel):
         description="If specified, only operations that are contained in this Python package are returned.",
         default=None,
     )
+    input_types: List[str] = Field(
+        description="each operation must have at least one input that matches one of the specified types",
+        default_factory=list,
+    )
+    output_types: List[str] = Field(
+        description="each operation must have at least one output that matches one of the specified types",
+        default_factory=list,
+    )
 
 
 class OperationControllerJson(Controller):

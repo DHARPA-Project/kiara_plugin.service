@@ -11,7 +11,6 @@ from kiara.interfaces.python_api import DataTypeClassInfo
 from kiara.models.runtime_environment.python import (
     PythonRuntimeEnvironment,
 )
-from kiara.models.values.value import DataTypeInfo
 from kiara.registries.environment import EnvironmentRegistry
 from kiara_plugin.service.openapi.controllers import get, post
 
@@ -34,7 +33,7 @@ class DataTypeControllerJson(Controller):
     @post(path="/", api_func=KiaraAPI.retrieve_data_types_info)
     async def list_data_types(
         self, kiara_api: KiaraAPI, data: DataTypeMatcher
-    ) -> Dict[str, DataTypeInfo]:
+    ) -> Dict[str, DataTypeClassInfo]:
 
         filters = data.filters
         python_package = data.python_package
