@@ -1496,10 +1496,10 @@
         <span class="n">module_names</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">list_module_type_names</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">module_names</span>
 
-    <span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/{module_type_name:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_type_info</span><span class="p">)</span>
+    <span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/{data_type_name:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_type_info</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">get_module_type_info</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data_type_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModuleTypeInfo</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataTypeClassInfo</span><span class="p">:</span>
 
         <span class="n">data_type</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">retrieve_data_type_info</span><span class="p">(</span><span class="n">data_type_name</span><span class="o">=</span><span class="n">data_type_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data_type</span>
@@ -1627,7 +1627,7 @@
 
 
 <h5 id="kiara_plugin.service.openapi.controllers.context_info.DataTypeControllerJson.get_module_type_info" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_module_type_info</span><span class="p">(</span><span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModuleTypeInfo</span></code>
+<code class="highlight language-python"><span class="n">get_module_type_info</span><span class="p">(</span><span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataTypeClassInfo</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
@@ -1646,10 +1646,10 @@
 <span class="normal">57</span>
 <span class="normal">58</span>
 <span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/{module_type_name:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_type_info</span><span class="p">)</span>
+<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/{data_type_name:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_type_info</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">get_module_type_info</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data_type_name</span><span class="p">:</span> <span class="nb">str</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModuleTypeInfo</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataTypeClassInfo</span><span class="p">:</span>
 
     <span class="n">data_type</span> <span class="o">=</span> <span class="n">kiara_api</span><span class="o">.</span><span class="n">retrieve_data_type_info</span><span class="p">(</span><span class="n">data_type_name</span><span class="o">=</span><span class="n">data_type_name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data_type</span>
