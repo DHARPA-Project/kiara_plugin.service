@@ -71,7 +71,11 @@ class OperationControllerJson(Controller):
             python_packages = None
 
         operations = kiara_api.retrieve_operations_info(
-            *filters, include_internal=include_internal, python_packages=python_packages
+            *filters,
+            include_internal=include_internal,
+            python_packages=python_packages,
+            input_types=data.input_types,
+            output_types=data.output_types
         )
         return operations.item_infos  # type: ignore
 
@@ -93,6 +97,8 @@ class OperationControllerJson(Controller):
             filter=filters,
             include_internal=include_internal,
             python_packages=python_packages,
+            input_types=data.input_types,
+            output_types=data.output_types,
         )
         return operation_ids
 
