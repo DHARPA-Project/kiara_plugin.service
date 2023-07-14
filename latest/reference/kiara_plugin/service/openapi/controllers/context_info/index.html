@@ -1343,7 +1343,8 @@
 
         <details class="quote">
           <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/context_info.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
+<span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
@@ -1351,8 +1352,7 @@
 <span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DataTypeMatcher</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DataTypeMatcher</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
     <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The (optional) filter strings, a module must match all of them to be included in the result.&quot;</span><span class="p">,</span>
@@ -1444,7 +1444,8 @@
 
         <details class="quote">
           <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/context_info.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
+<span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
@@ -1472,14 +1473,13 @@
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DataTypeControllerJson</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DataTypeControllerJson</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
     <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
 
     <span class="nd">@post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_types_info</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">list_data_types</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataTypeMatcher</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataTypeInfo</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataTypeClassInfo</span><span class="p">]:</span>
 
         <span class="n">filters</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">filters</span>
         <span class="n">python_package</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">python_package</span>
@@ -1543,7 +1543,7 @@
 
 
 <h5 id="kiara_plugin.service.openapi.controllers.context_info.DataTypeControllerJson.list_data_types" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">list_data_types</span><span class="p">(</span><span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataTypeMatcher</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataTypeInfo</span><span class="p">]</span></code>
+<code class="highlight language-python"><span class="n">list_data_types</span><span class="p">(</span><span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataTypeMatcher</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataTypeClassInfo</span><span class="p">]</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
@@ -1556,7 +1556,8 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/context_info.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
+<span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
@@ -1566,11 +1567,10 @@
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_types_info</span><span class="p">)</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_types_info</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">list_data_types</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataTypeMatcher</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataTypeInfo</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataTypeClassInfo</span><span class="p">]:</span>
 
     <span class="n">filters</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">filters</span>
     <span class="n">python_package</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">python_package</span>
@@ -1605,12 +1605,12 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/context_info.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
+<span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/type_names&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">list_module_type_names</span><span class="p">)</span>
+<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/type_names&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">list_module_type_names</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">list_module_type_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List the ids of all available operations.&quot;&quot;&quot;</span>
 
@@ -1640,13 +1640,13 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/context_info.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
+<span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/{data_type_name:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_type_info</span><span class="p">)</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/{data_type_name:str}&quot;</span><span class="p">,</span> <span class="n">api_func</span><span class="o">=</span><span class="n">KiaraAPI</span><span class="o">.</span><span class="n">retrieve_data_type_info</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">get_module_type_info</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">,</span> <span class="n">data_type_name</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataTypeClassInfo</span><span class="p">:</span>
@@ -1686,7 +1686,8 @@
 
         <details class="quote">
           <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/context_info.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">63</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
+<span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
@@ -1705,8 +1706,7 @@
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">KiaraContextControllerJson</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">KiaraContextControllerJson</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 
     <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
 
@@ -1782,7 +1782,8 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/service/openapi/controllers/context_info.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+<span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
@@ -1797,8 +1798,7 @@
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/installed_plugins&quot;</span><span class="p">)</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/installed_plugins&quot;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">list_installed_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kiara_api</span><span class="p">:</span> <span class="n">KiaraAPI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List the kiara version as well as names and versions of all available kiara plugins.&quot;&quot;&quot;</span>
 
