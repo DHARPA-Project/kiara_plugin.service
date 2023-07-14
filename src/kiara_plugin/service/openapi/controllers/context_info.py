@@ -7,7 +7,7 @@ from starlite import (
 )
 
 from kiara.api import KiaraAPI
-from kiara.interfaces.python_api import ModuleTypeInfo
+from kiara.interfaces.python_api import DataTypeClassInfo
 from kiara.models.runtime_environment.python import (
     PythonRuntimeEnvironment,
 )
@@ -51,10 +51,10 @@ class DataTypeControllerJson(Controller):
         module_names = kiara_api.list_module_type_names()
         return module_names
 
-    @get(path="/{module_type_name:str}", api_func=KiaraAPI.retrieve_data_type_info)
+    @get(path="/{data_type_name:str}", api_func=KiaraAPI.retrieve_data_type_info)
     async def get_module_type_info(
         self, kiara_api: KiaraAPI, data_type_name: str
-    ) -> ModuleTypeInfo:
+    ) -> DataTypeClassInfo:
 
         data_type = kiara_api.retrieve_data_type_info(data_type_name=data_type_name)
         return data_type
