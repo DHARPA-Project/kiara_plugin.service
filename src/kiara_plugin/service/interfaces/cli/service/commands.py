@@ -39,6 +39,7 @@ def start(ctx, host: str, port: int):
         pass
 
     kiara_api: KiaraAPI = ctx.obj.kiara_api
+
     kiara_service = KiaraOpenAPIService(kiara_api=kiara_api)
     import uvicorn
 

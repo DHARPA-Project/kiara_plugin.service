@@ -26,9 +26,9 @@ class PipelineControllerJson(Controller):
         self, kiara_api: KiaraAPI, pipeline: str
     ) -> PipelineStructureInfo:
 
-        print(f"PIPELINE: {pipeline}")
-        pipeline_config = get_pipeline_config(pipeline=pipeline)
-        print(pipeline_config)
+        pipeline_config = get_pipeline_config(
+            pipeline=pipeline, kiara=kiara_api.context
+        )
         info = PipelineStructureInfo.create_from_instance(
             kiara=kiara_api.context, instance=pipeline_config.structure
         )
@@ -38,5 +38,4 @@ class PipelineControllerJson(Controller):
     async def list_pipelines(self, kiara_api: KiaraAPI) -> List[str]:
 
         pipelines = kiara_api.list_operations(operation_types="pipeline")
-        print(pipelines)
         return list(pipelines.keys())
