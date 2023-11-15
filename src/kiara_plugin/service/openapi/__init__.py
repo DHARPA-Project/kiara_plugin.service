@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Any, Dict, Union
 
-from pydantic import BaseModel, Extra, Field
+from pydantic import BaseModel, ConfigDict, Field
 from starlite import Controller, MediaType, get, post
 
 from kiara.context import Kiara
@@ -31,8 +31,8 @@ class DataTypeRequest(BaseModel):
 
 
 class RenderRequest(BaseModel):
-    class Config:
-        extra = Extra.allow
+
+    model_config = ConfigDict(extra="allow")
 
     target_id: str = Field(description="The id of the target element.")
     field_name: str = Field(description="The field name.")

@@ -18,7 +18,7 @@ from kiara.models import KiaraModel
 class InternalErrorModel(KiaraModel):
     """A model describing an internal server-side error."""
 
-    _kiara_model_id = "instance.internal_error"
+    _kiara_model_id: ClassVar = "instance.internal_error"
 
     @classmethod
     def from_exception(cls, exception: Exception, status: Union[int, None] = None):

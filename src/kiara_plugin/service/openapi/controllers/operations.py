@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Dict, List, Union
 
-from pydantic import BaseModel, Extra, Field
+from pydantic import BaseModel, ConfigDict, Field
 from starlite import (
     Controller,
 )
@@ -17,8 +17,8 @@ class OperationRequest(BaseModel):
 
 
 class OperationRunRequest(BaseModel):
-    class Config:
-        extra = Extra.allow
+
+    model_config = ConfigDict(extra="allow")
 
     element_id: str = Field(description="The id of the element to be created.")
     operation_id: str = Field(description="The id of the operation.")

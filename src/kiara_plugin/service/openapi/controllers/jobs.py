@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Any, Mapping
 
-from pydantic import BaseModel, Extra, Field
+from pydantic import BaseModel, ConfigDict, Field
 from starlite import Controller
 
 from kiara.api import KiaraAPI
@@ -10,8 +10,8 @@ from kiara_plugin.service.openapi.controllers import get, post
 
 
 class RunJobRequest(BaseModel):
-    class Config:
-        extra = Extra.allow
+
+    model_config = ConfigDict(extra="allow")
 
     operation_id: str = Field(description="The id of the operation or module.")
     operation_config: Mapping[str, Any] = Field(
